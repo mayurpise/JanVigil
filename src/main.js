@@ -1,4 +1,4 @@
-import directoryData from '../data/anti_corruption_directory.json';
+import { directoryData } from '../data/anti_corruption_directory.js';
 
 // Combine States and UTs into a single searchable array
 const allAgencies = [
@@ -461,7 +461,7 @@ function exportCSV() {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement('a');
   link.setAttribute('href', encodedUri);
-  link.setAttribute('download', `janvigil_anti_corruption_directory_${new Date().toISOString().slice(0,10)}.csv`);
+  link.setAttribute('download', `janvigil_in_anti_corruption_directory_${new Date().toISOString().slice(0,10)}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
