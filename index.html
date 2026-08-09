@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JanVigil.in | India Anti-Corruption Directory</title>
+  <meta name="description" content="JanVigil.in - Verified directory of Anti-Corruption Agencies, official complaint portals, helplines, anonymity rules, and escalation paths for all 28 States & 8 Union Territories of India.">
+  <meta name="theme-color" content="#ffffff">
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Indian Flag Tricolor Accent Bar -->
+    <div class="tricolor-bar" aria-hidden="true">
+      <span class="stripe-saffron"></span>
+      <span class="stripe-white"></span>
+      <span class="stripe-green"></span>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="brand">
+          <div class="emblem-container">
+            <span class="flag-icon" aria-hidden="true">🇮🇳</span>
+          </div>
+          <div>
+            <div class="brand-title-group">
+              <h1>JanVigil<span class="domain-ext">.in</span></h1>
+              <span class="sub-badge">India Anti-Corruption Directory</span>
+            </div>
+            <p class="tagline">Empowering Citizens across 28 States & 8 Union Territories</p>
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <!-- Theme Toggle Switch -->
+          <button id="btn-theme-toggle" class="btn btn-outline" aria-label="Toggle dark/light theme" title="Toggle Light/Dark Mode">
+            <span class="theme-icon" id="theme-icon">🌙</span>
+            <span id="theme-text">Dark Mode</span>
+          </button>
+
+          <button id="btn-guide-modal" class="btn btn-primary">
+            <span class="btn-icon">⚖️</span> Reporting Guide
+          </button>
+          
+          <button id="btn-export-csv" class="btn btn-outline">
+            <span class="btn-icon">📥</span> Export CSV
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Active Emergency Helpline Banner -->
+    <section class="helpline-banner">
+      <div class="container helpline-container">
+        <div class="helpline-label">
+          <span class="pulse-dot"></span>
+          <strong>Emergency Anti-Corruption Helplines:</strong>
+        </div>
+        <div class="helpline-chips">
+          <a href="tel:1064" class="helpline-chip" title="National / Multi-State ACB Helpline">
+            <span class="chip-flag">🇮🇳</span>
+            <span class="chip-number">1064</span>
+            <span class="chip-text">State ACBs (Toll-Free)</span>
+          </a>
+          <a href="tel:14400" class="helpline-chip" title="Andhra Pradesh ACB">
+            <span class="chip-number">14400</span>
+            <span class="chip-text">Andhra Pradesh</span>
+          </a>
+          <a href="tel:1031" class="helpline-chip" title="Delhi Anti-Corruption Branch">
+            <span class="chip-number">1031</span>
+            <span class="chip-text">Delhi (GNCTD)</span>
+          </a>
+          <a href="tel:18001802022" class="helpline-chip" title="Haryana ACB">
+            <span class="chip-number">1800-180-2022</span>
+            <span class="chip-text">Haryana ACB</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="container main-content">
+      
+      <!-- Key Legal Notice Card -->
+      <section class="notice-card">
+        <div class="notice-icon">⚠️</div>
+        <div class="notice-body">
+          <h3>Crucial Citizen Rule: Anonymous Tips vs. Bribe Traps</h3>
+          <p>
+            While agencies accept source tips for preliminary inquiry, conducting an immediate official bribe trap requires an <strong>identifiable complainant</strong> to participate in pre-trap proceedings. 
+            <em>Haryana ACB</em> protects informant identity in preliminary inquiries; <em>Andaman & Nicobar Islands</em> strictly disregards unverified address complaints.
+          </p>
+        </div>
+        <button id="btn-read-more-notice" class="btn-text">View Protocol &rarr;</button>
+      </section>
+
+      <!-- Controls & Search Section -->
+      <section class="controls-section">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Search State, UT, Helpline, Authority (e.g. Maharashtra, 1064, Lokayukta)..." aria-label="Search directory">
+          <button id="search-clear" class="search-clear-btn" aria-label="Clear search">&times;</button>
+        </div>
+
+        <div class="filters-row">
+          <div class="filter-chips" role="group" aria-label="Region filters">
+            <button class="filter-btn active" data-filter="all">All <span class="badge" id="count-all">36</span></button>
+            <button class="filter-btn" data-filter="state">28 States <span class="badge" id="count-states">28</span></button>
+            <button class="filter-btn" data-filter="ut">8 UTs <span class="badge" id="count-uts">8</span></button>
+            <button class="filter-btn" data-filter="verified">Online Form Verified <span class="badge" id="count-verified">17</span></button>
+            <button class="filter-btn" data-filter="anonymous">Anonymous Tip Supported <span class="badge" id="count-anon">3</span></button>
+          </div>
+
+          <div class="view-toggle">
+            <button id="btn-view-grid" class="toggle-btn active" aria-label="Grid Card View" title="Grid Card View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Cards
+            </button>
+            <button id="btn-view-table" class="toggle-btn" aria-label="Table View" title="Table View">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              Table
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Filters Indicator & Results Count -->
+      <div class="results-bar">
+        <div id="results-count-text">Showing <strong>36</strong> anti-corruption authorities across India</div>
+        <div id="active-search-badge" class="search-tag-badge" style="display: none;"></div>
+      </div>
+
+      <!-- Grid View Container -->
+      <section id="grid-view" class="cards-grid"></section>
+
+      <!-- Table View Container -->
+      <section id="table-view" class="table-container" style="display: none;">
+        <table class="directory-table">
+          <thead>
+            <tr>
+              <th>Region</th>
+              <th>Primary Anti-Corruption Authority</th>
+              <th>Official Portal / Form</th>
+              <th>Anonymous Tip?</th>
+              <th>Helpline / Phone</th>
+              <th>Escalation Path</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </section>
+
+      <!-- Empty State -->
+      <div id="no-results" class="no-results-box" style="display: none;">
+        <div class="no-results-icon">🔎</div>
+        <h3>No matching agencies found</h3>
+        <p>Try refining your search query or reset the filter tags.</p>
+        <button id="btn-reset-filters" class="btn btn-secondary">Reset Filters</button>
+      </div>
+
+    </main>
+
+    <!-- Modal: Reporting Protocol & Guide -->
+    <div id="guide-modal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-window">
+        <header class="modal-header">
+          <h2 id="modal-title">🇮🇳 JanVigil.in — Anti-Corruption Reporting & Trap Guidelines</h2>
+          <button id="btn-close-modal" class="modal-close" aria-label="Close modal">&times;</button>
+        </header>
+        
+        <div class="modal-body">
+          <div class="guide-tabs">
+            <button class="tab-btn active" data-tab="tab-trap">🚨 Immediate Bribe Demand (Trap)</button>
+            <button class="tab-btn" data-tab="tab-types">⚖️ Complaint Categories</button>
+            <button class="tab-btn" data-tab="tab-escalation">🔄 Escalation Matrix</button>
+          </div>
+
+          <div class="tab-content active" id="tab-trap">
+            <div class="guide-step-box">
+              <span class="step-num">1</span>
+              <div>
+                <h4>DO NOT Pay the Bribe</h4>
+                <p>If a public servant demands an illegal gratification (bribe) for performing an official duty, do not pay or yield to the demand immediately.</p>
+              </div>
+            </div>
+
+            <div class="guide-step-box">
+              <span class="step-num">2</span>
+              <div>
+                <h4>Contact State ACB / Vigilance Immediately</h4>
+                <p>Call the official Anti-Corruption Bureau toll-free helpline (<strong>1064</strong> in most states, <strong>14400</strong> in AP, <strong>1031</strong> in Delhi) or visit the nearest ACB office before the transaction takes place.</p>
+              </div>
+            </div>
+
+            <div class="guide-step-box">
+              <span class="step-num">3</span>
+              <div>
+                <h4>Pre-Trap Demonstration & Chemical Test</h4>
+                <p>The ACB team registers your complaint, arranges independent pancha witnesses, and applies phenolphthalein powder to currency notes to capture physical proof during hand-over.</p>
+              </div>
+            </div>
+
+            <div class="guide-step-box">
+              <span class="step-num">4</span>
+              <div>
+                <h4>Trap Execution & On-Spot FIR</h4>
+                <p>The officer is caught red-handed when accepting marked notes, leading to immediate arrest and registration of a Prevention of Corruption Act case.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-types" style="display: none;">
+            <div class="comparison-card">
+              <h4>1. Anonymous Tip</h4>
+              <p><strong>Identity Given:</strong> No</p>
+              <p><strong>Investigation Likelihood:</strong> Low to Medium</p>
+              <p>Used primarily as background intelligence. Most statutory agencies require verifiable identity to initiate formal prosecution.</p>
+            </div>
+
+            <div class="comparison-card">
+              <h4>2. Confidential Complaint</h4>
+              <p><strong>Identity Given:</strong> Yes (kept secret by agency)</p>
+              <p><strong>Investigation Likelihood:</strong> High</p>
+              <p>Identity is recorded by the agency but withheld from the accused public servant to protect the complainant from retaliation.</p>
+            </div>
+
+            <div class="comparison-card">
+              <h4>3. Formal Trap Complaint</h4>
+              <p><strong>Identity Given:</strong> Yes</p>
+              <p><strong>Investigation Likelihood:</strong> Very High (Immediate)</p>
+              <p>Complainant must sign an official FIR statement and assist officers in verifying the bribe demand during pre-trap proceedings.</p>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-escalation" style="display: none;">
+            <div class="escalation-flow">
+              <div class="flow-step">
+                <span class="flow-badge">Level 1</span>
+                <strong>State Anti-Corruption Bureau / Vigilance Directorate</strong>
+                <p>Primary agency for bribe traps, disproportionate assets, and official misconduct inquiries.</p>
+              </div>
+
+              <div class="flow-arrow">&darr;</div>
+
+              <div class="flow-step">
+                <span class="flow-badge">Level 2</span>
+                <strong>State Lokayukta / Lokpal</strong>
+                <p>Statutory Ombudsman for investigating maladministration and corruption by public functionaries (including Ministers and MLAs).</p>
+              </div>
+
+              <div class="flow-arrow">&darr;</div>
+
+              <div class="flow-step">
+                <span class="flow-badge">Level 3</span>
+                <strong>CPGRAMS / Central Vigilance Commission (CVC) / CBI</strong>
+                <p>For complaints involving Central Government Ministries, PSUs, Nationalized Banks, and UT Administrations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="modal-footer">
+          <button id="btn-close-modal-footer" class="btn btn-secondary">Close Guide</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Modal: Detail Drawer for Specific State -->
+    <div id="detail-modal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true">
+      <div class="modal-window">
+        <header class="modal-header">
+          <h2 id="detail-title">Region Details</h2>
+          <button id="btn-close-detail" class="modal-close">&times;</button>
+        </header>
+        <div class="modal-body" id="detail-body"></div>
+        <footer class="modal-footer">
+          <button id="btn-close-detail-footer" class="btn btn-secondary">Close</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>🇮🇳 <strong>JanVigil.in</strong> &bull; India Anti-Corruption Directory &bull; Open-Source Civic Initiative.</p>
+        <p class="footer-subtext">Data snapshot: 2026-08-09. Asterisk (*) denotes entries relying on general administrative portals or unverified direct web forms. Verified against National Portal of India.</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

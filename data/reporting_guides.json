@@ -1,0 +1,46 @@
+{
+  "complaintTypes": [
+    {
+      "type": "Anonymous Tip",
+      "identityGiven": "No",
+      "likelihoodOfInvestigation": "Low - Medium",
+      "primaryPurpose": "Useful primarily as intelligence, surveillance initiation, or background checks.",
+      "keyCaveats": "Agencies such as A&N explicitly take NO ACTION on unverified address/anonymous complaints. Others like Haryana use it to start intelligence gathering."
+    },
+    {
+      "type": "Confidential Complaint",
+      "identityGiven": "Yes (kept secret by agency)",
+      "likelihoodOfInvestigation": "High",
+      "primaryPurpose": "Detailed investigation into ongoing systemic fraud, disproportionate assets, or kickback schemes.",
+      "keyCaveats": "Identity is recorded by the agency but withheld from the accused under official secrecy rules."
+    },
+    {
+      "type": "Formal Trap Complaint",
+      "identityGiven": "Yes",
+      "likelihoodOfInvestigation": "Very High (Immediate Action)",
+      "primaryPurpose": "Catching a public servant red-handed while demanding or accepting an illegal gratification (bribe).",
+      "keyCaveats": "Requires an identifiable complainant (or witness representative) to participate in laying chemical/pre-trap evidence, witness verification, and formal testimony."
+    }
+  ],
+  "escalationWorkflows": {
+    "bribeDemand": {
+      "title": "Immediate Bribe Demand (Current / Active)",
+      "steps": [
+        "DO NOT pay the bribe immediately if you plan to report it.",
+        "Contact the State ACB / Vigilance Bureau helpline immediately (e.g. 1064, 14400, or direct headquarters number).",
+        "Submit a written complaint detailing who demanded the bribe, for what service, and the location/time.",
+        "The ACB/Vigilance team will arrange independent official witnesses and treat currency notes with phenolphthalein powder for a sting/trap operation."
+      ]
+    },
+    "systemicCorruption": {
+      "title": "Systemic Corruption / Large Fraud",
+      "pathway": "State ACB / Vigilance → State Lokayukta → CPGRAMS (Central Portal) → CVC / CBI (if Central Govt involved)",
+      "steps": [
+        "Gather documentary evidence (RTI responses, receipts, contracts, communications).",
+        "Submit formal complaint to the State Vigilance / ACB.",
+        "If state authorities fail to act or if political influence delays action, escalate to the State Lokayukta (often requires a sworn affidavit on prescribed forms).",
+        "For Central Government employees, PSUs, or nationalized banks, file directly on the Central Vigilance Commission (CVC) portal or via CPGRAMS."
+      ]
+    }
+  }
+}
