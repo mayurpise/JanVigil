@@ -9,7 +9,7 @@
   --bg-card: #ffffff;
   --bg-card-hover: #ffffff;
   --bg-modal: #ffffff;
-  --bg-header: rgba(255, 255, 255, 0.92);
+  --bg-header: rgba(255, 255, 255, 0.95);
   --bg-banner: #fff7ed;
   
   --border-color: #e2e8f0;
@@ -43,21 +43,21 @@
 /* Dark Theme Variables */
 [data-theme="dark"] {
   --bg-main: #090d16;
-  --bg-card: rgba(15, 23, 42, 0.85);
-  --bg-card-hover: rgba(30, 41, 59, 0.95);
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
   --bg-modal: #0f172a;
-  --bg-header: rgba(9, 13, 22, 0.9);
-  --bg-banner: rgba(234, 88, 12, 0.1);
+  --bg-header: rgba(9, 13, 22, 0.95);
+  --bg-banner: rgba(234, 88, 12, 0.15);
   
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-highlight: rgba(99, 102, 241, 0.3);
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-highlight: rgba(99, 102, 241, 0.4);
   
   --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --text-muted: #cbd5e1;
+  --text-dim: #94a3b8;
   
   --primary-navy: #6366f1;
-  --primary-indigo: #4f46e5;
+  --primary-indigo: #3b82f6;
   --saffron-orange: #f97316;
   --saffron-light: rgba(249, 115, 22, 0.15);
   --emerald-green: #10b981;
@@ -130,7 +130,7 @@ body {
 }
 
 .emblem-container {
-  background: #ffffff;
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   width: 52px;
   height: 52px;
