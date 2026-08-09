@@ -1,11 +1,14 @@
-# 🇮🇳 JanVigil.in — India Anti-Corruption Directory
+# 🇮🇳 JanVigil — India Anti-Corruption Directory
 
-> **JanVigil.in** is an authoritative, open-source civic directory and interactive web portal covering official Anti-Corruption Authorities, complaint portals, toll-free helplines, anonymity rules, and escalation paths across all **28 States** and **8 Union Territories** of India.
+> **JanVigil** is an authoritative, open-source civic directory and interactive web portal covering official Anti-Corruption Authorities, complaint portals, toll-free helplines, anonymity rules, and escalation paths across all **28 States** and **8 Union Territories** of India.
 
+[![Live Web Portal](https://img.shields.io/badge/Live%20Portal-mayurpise.github.io%2FJanVigil-blue?style=flat&logo=github)](https://mayurpise.github.io/JanVigil/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![States Covered](https://img.shields.io/badge/States-28%2F28-brightgreen.svg)]()
 [![UTs Covered](https://img.shields.io/badge/Union%20Territories-8%2F8-blue.svg)]()
-[![Portal Verification](https://img.shields.io/badge/Portal%20Verification-Active-emerald.svg)]()
+
+🌐 **Live Website**: [https://mayurpise.github.io/JanVigil/](https://mayurpise.github.io/JanVigil/)  
+📦 **GitHub Repository**: [https://github.com/mayurpise/JanVigil](https://github.com/mayurpise/JanVigil)
 
 ---
 
@@ -13,7 +16,7 @@
 
 Not every State or Union Territory in India operates a functioning public online anti-corruption complaint web form. Many agencies accept complaints strictly through written postal communications, phone helplines, official email, or statutory Lokayukta bodies. Furthermore, relying on outdated static government PDF directories often leads citizens to dead links or inactive phone numbers.
 
-**JanVigil.in** addresses this by maintaining individually verified, machine-readable datasets and an interactive citizen web dashboard.
+**JanVigil** addresses this by maintaining individually verified, machine-readable datasets and an interactive citizen web dashboard.
 
 > [!IMPORTANT]
 > **Anonymous does NOT mean Protected.**
@@ -63,7 +66,7 @@ flowchart TD
 ## 📂 Repository Structure
 
 ```text
-JanVigil.in/
+JanVigil/
 ├── data/
 │   ├── anti_corruption_directory.json  # Full dataset (28 States + 8 UTs)
 │   └── reporting_guides.json          # Complaint types & escalation guides
@@ -85,8 +88,8 @@ Prerequisites: Node.js (v18+)
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/JanVigil.in.git
-cd JanVigil.in
+git clone https://github.com/mayurpise/JanVigil.git
+cd JanVigil
 
 # Install dependencies
 npm install
@@ -101,11 +104,11 @@ npm run dev
 
 We welcome updates from legal practitioners, journalists, RTI activists, and citizens. If a phone number, helpline, or online portal URL changes in your State or UT:
 
-1. Review [CONTRIBUTING.md](file:///home/mayurpise/workspace/JanVigil.in/CONTRIBUTING.md).
+1. Review [CONTRIBUTING.md](file:///home/mayurpise/workspace/JanVigil/CONTRIBUTING.md).
 2. Submit a Pull Request updating `data/anti_corruption_directory.json` with official state portal citations.
 
 ---
 
 ## 📜 Disclaimer
 
-*JanVigil.in is an open-source civic directory compiled from public government web portals and statutory declarations. It is provided for informational and educational purposes. In an active emergency or bribe demand, contact your nearest Anti-Corruption Bureau station or dial the official toll-free helpline directly.*
+*JanVigil is an open-source civic directory compiled from public government web portals and statutory declarations. It is provided for informational and educational purposes. In an active emergency or bribe demand, contact your nearest Anti-Corruption Bureau station or dial the official toll-free helpline directly.*
