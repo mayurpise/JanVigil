@@ -11,7 +11,12 @@ const allAgencies = [
 let currentFilter = 'all';
 let searchQuery = '';
 let currentView = 'grid'; // 'grid' or 'table'
-let currentTheme = localStorage.getItem('janvigil_theme') || 'light';
+let currentTheme = 'light';
+try {
+  currentTheme = localStorage.getItem('janvigil_theme') || 'light';
+} catch {
+  // Storage blocked: keep the default theme
+}
 
 // DOM Element References
 const htmlEl = document.documentElement;
@@ -52,7 +57,11 @@ const toastContainerEl = document.getElementById('toast-container');
 function applyTheme(theme) {
   currentTheme = theme;
   htmlEl.setAttribute('data-theme', theme);
-  localStorage.setItem('janvigil_theme', theme);
+  try {
+    localStorage.setItem('janvigil_theme', theme);
+  } catch {
+    // Storage blocked: theme just won't persist
+  }
   if (theme === 'dark') {
     themeIconEl.textContent = '☀️';
     themeTextEl.textContent = 'Light Mode';
