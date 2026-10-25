@@ -374,6 +374,20 @@ function render() {
   }
 }
 
+// Modal open/close with focus management
+let modalOpener = null;
+
+function openModal(modalEl, closeBtn) {
+  modalOpener = document.activeElement;
+  modalEl.style.display = 'flex';
+  closeBtn.focus();
+}
+
+function closeModal(modalEl) {
+  modalEl.style.display = 'none';
+  if (modalOpener) modalOpener.focus();
+}
+
 // Open Detail Modal for specific Region
 function openDetailModal(item) {
   detailTitleEl.textContent = `${item.name} (${item.type})`;
@@ -436,7 +450,7 @@ function openDetailModal(item) {
   container.appendChild(notesBox);
 
   detailBodyEl.appendChild(container);
-  detailModalEl.style.display = 'flex';
+  openModal(detailModalEl, btnCloseDetail);
 }
 
 // Export CSV Functionality
@@ -529,19 +543,19 @@ function initEvents() {
 
   // Guide Modal
   btnGuideModal.addEventListener('click', () => {
-    guideModalEl.style.display = 'flex';
+    openModal(guideModalEl, btnCloseModal);
   });
 
   btnReadMoreNotice.addEventListener('click', () => {
-    guideModalEl.style.display = 'flex';
+    openModal(guideModalEl, btnCloseModal);
   });
 
   btnCloseModal.addEventListener('click', () => {
-    guideModalEl.style.display = 'none';
+    closeModal(guideModalEl);
   });
 
   btnCloseModalFooter.addEventListener('click', () => {
-    guideModalEl.style.display = 'none';
+    closeModal(guideModalEl);
   });
 
   // Guide Modal Tabs
@@ -559,17 +573,25 @@ function initEvents() {
 
   // Detail Modal Close
   btnCloseDetail.addEventListener('click', () => {
-    detailModalEl.style.display = 'none';
+    closeModal(detailModalEl);
   });
 
   btnCloseDetailFooter.addEventListener('click', () => {
-    detailModalEl.style.display = 'none';
+    closeModal(detailModalEl);
   });
 
   // Backdrop click to close modals
   window.addEventListener('click', (e) => {
-    if (e.target === guideModalEl) guideModalEl.style.display = 'none';
-    if (e.target === detailModalEl) detailModalEl.style.display = 'none';
+    if (e.target === guideModalEl) closeModal(guideModalEl);
+    if (e.target === detailModalEl) closeModal(detailModalEl);
+  });
+
+  // Escape closes whichever modal is open
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    [guideModalEl, detailModalEl].forEach(m => {
+      if (m.style.display === 'flex') closeModal(m);
+    });
   });
 
   // Reset filters
