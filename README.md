@@ -103,7 +103,7 @@ npm run dev
 
 We welcome updates from legal practitioners, journalists, RTI activists, and citizens. If a phone number, helpline, or online portal URL changes in your State or UT:
 
-1. Review [CONTRIBUTING.md](file:///home/mayurpise/workspace/JanVigil/CONTRIBUTING.md).
+1. Review [CONTRIBUTING.md](CONTRIBUTING.md).
 2. Submit a Pull Request updating `data/anti_corruption_directory.js` with official state portal citations.
 
 ---
