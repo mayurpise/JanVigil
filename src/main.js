@@ -1,4 +1,5 @@
 import { directoryData } from '../data/anti_corruption_directory.js';
+import { telHref } from './phone.js';
 
 // Combine States and UTs into a single searchable array
 const allAgencies = [
@@ -190,10 +191,9 @@ function createCardNode(item) {
   const phoneWrapper = document.createElement('div');
   phoneWrapper.className = 'phone-wrapper';
 
-  const cleanPhone = item.phone.replace(/[^0-9+]/g, '');
   const phonePill = document.createElement('a');
   phonePill.className = 'phone-pill';
-  phonePill.href = cleanPhone ? `tel:${cleanPhone}` : '#';
+  phonePill.href = telHref(item.phone);
   phonePill.textContent = `📞 ${item.phone}`;
 
   const copyBtn = document.createElement('button');
@@ -296,7 +296,7 @@ function createTableRowNode(item) {
   const tdPhone = document.createElement('td');
   const aPhone = document.createElement('a');
   aPhone.className = 'phone-pill';
-  aPhone.href = `tel:${item.phone.replace(/[^0-9+]/g, '')}`;
+  aPhone.href = telHref(item.phone);
   aPhone.textContent = item.phone;
   tdPhone.appendChild(aPhone);
 
