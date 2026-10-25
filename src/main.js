@@ -201,7 +201,7 @@ function createCardNode(item) {
   copyBtn.textContent = '📋 Copy';
   copyBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    copyText(item.phone, `${item.name} Helpline`);
+    copyText(item.phone.replace(/\*/g, ''), `${item.name} Helpline`);
   });
 
   phoneWrapper.appendChild(phonePill);
