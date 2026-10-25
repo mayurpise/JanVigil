@@ -68,8 +68,7 @@ flowchart TD
 ```text
 JanVigil/
 ├── data/
-│   ├── anti_corruption_directory.js  # Full dataset (28 States + 8 UTs)
-│   └── reporting_guides.json          # Complaint types & escalation guides
+│   └── anti_corruption_directory.js  # Full dataset (28 States + 8 UTs)
 ├── src/
 │   ├── main.js                        # App state, filters, search, & dynamic render logic
 │   └── style.css                      # Modern light/dark theme & responsive UI components
