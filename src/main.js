@@ -2,8 +2,8 @@ import { directoryData } from '../data/anti_corruption_directory.js';
 
 // Combine States and UTs into a single searchable array
 const allAgencies = [
-  ...(directoryData.states || []),
-  ...(directoryData.unionTerritories || [])
+  ...directoryData.states,
+  ...directoryData.unionTerritories
 ];
 
 // Application State
@@ -125,6 +125,17 @@ function copyText(text, label = 'Phone number') {
   });
 }
 
+// External portal link
+function createPortalLink(url, text) {
+  const link = document.createElement('a');
+  link.className = 'url-link';
+  link.href = url;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = text;
+  return link;
+}
+
 // Render Grid Card Element safely using DOM API
 function createCardNode(item) {
   const card = document.createElement('div');
@@ -164,12 +175,7 @@ function createCardNode(item) {
   urlLabel.className = 'info-label';
   urlLabel.textContent = 'Official Complaint Portal';
   
-  const urlLink = document.createElement('a');
-  urlLink.className = 'url-link';
-  urlLink.href = item.url;
-  urlLink.target = '_blank';
-  urlLink.rel = 'noopener noreferrer';
-  urlLink.textContent = item.url;
+  const urlLink = createPortalLink(item.url, item.url);
 
   urlRow.appendChild(urlLabel);
   urlRow.appendChild(urlLink);
@@ -279,12 +285,7 @@ function createTableRowNode(item) {
 
   // Portal URL
   const tdUrl = document.createElement('td');
-  const aUrl = document.createElement('a');
-  aUrl.className = 'url-link';
-  aUrl.href = item.url;
-  aUrl.target = '_blank';
-  aUrl.rel = 'noopener noreferrer';
-  aUrl.textContent = item.url;
+  const aUrl = createPortalLink(item.url, item.url);
   tdUrl.appendChild(aUrl);
 
   // Anonymous support
@@ -417,12 +418,7 @@ function openDetailModal(item) {
   
   const pUrl = document.createElement('p');
   pUrl.style.marginTop = '0.5rem';
-  const aUrl = document.createElement('a');
-  aUrl.className = 'url-link';
-  aUrl.href = item.url;
-  aUrl.target = '_blank';
-  aUrl.rel = 'noopener noreferrer';
-  aUrl.textContent = `🔗 Open Official Portal (${item.url})`;
+  const aUrl = createPortalLink(item.url, `🔗 Open Official Portal (${item.url})`);
   pUrl.appendChild(aUrl);
 
   notesBox.appendChild(hNotes);
@@ -469,6 +465,13 @@ function exportCSV() {
   showToast(`Exported ${items.length} records to CSV!`);
 }
 
+// Clear the search box and query
+function clearSearch() {
+  searchInputEl.value = '';
+  searchQuery = '';
+  searchClearEl.style.display = 'none';
+}
+
 // Event Listeners Setup
 function initEvents() {
   // Theme Toggle Listener
@@ -489,9 +492,7 @@ function initEvents() {
   });
 
   searchClearEl.addEventListener('click', () => {
-    searchInputEl.value = '';
-    searchQuery = '';
-    searchClearEl.style.display = 'none';
+    clearSearch();
     render();
   });
 
@@ -567,9 +568,7 @@ function initEvents() {
 
   // Reset filters
   btnResetFilters.addEventListener('click', () => {
-    searchInputEl.value = '';
-    searchQuery = '';
-    searchClearEl.style.display = 'none';
+    clearSearch();
     currentFilter = 'all';
     filterBtns.forEach(b => b.classList.remove('active'));
     document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
