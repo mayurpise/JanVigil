@@ -1,5 +1,5 @@
 export const directoryData = {
-  "lastUpdated": "2026-08-09",
+  "lastUpdated": "2026-10-25",
   "disclaimer": "Phone numbers or portal URLs marked with an asterisk (*) represent entries where current official online complaint forms or direct agency helplines could not be independently verified from existing portals. Always check the primary State/UT portal or National Portal of India for latest procedures.",
   "states": [
     {
@@ -35,11 +35,11 @@ export const directoryData = {
       "name": "Assam",
       "type": "State",
       "authority": "Directorate of Vigilance & Anti-Corruption",
-      "url": "https://vigilance.assam.gov.in/",
+      "url": "https://dgvigilance.assam.gov.in/",
       "complaintTypes": ["Bribery", "Corruption", "Disproportionate Assets (DA)"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Limited action on anonymous complaints without verifiable facts.",
-      "phone": "1800-345-3570*",
+      "phone": "1800-345-3767",
       "escalation": "Director, DVAC → Lokayukta",
       "isFormVerified": false,
       "notes": "Toll-free helpline listed; verify active operational hours."
@@ -79,9 +79,9 @@ export const directoryData = {
       "authority": "Anti-Corruption Branch",
       "url": "https://vigilance.goa.gov.in/",
       "complaintTypes": ["Bribe", "Corruption", "Misconduct"],
-      "anonymousSupport": "Limited",
-      "anonymousDetails": "CVO guidelines apply; non-verified anonymous complaints usually filed.",
-      "phone": "0832-2424192*",
+      "anonymousSupport": "No",
+      "anonymousDetails": "Anonymous and pseudonymous complaints are not entertained; a complaint must give the complainant's full name, postal address and contact number.",
+      "phone": "7875756063",
       "escalation": "Chief Vigilance Officer → Lokayukta",
       "isFormVerified": false,
       "notes": "Headquarters in Panaji."
@@ -189,7 +189,7 @@ export const directoryData = {
       "name": "Maharashtra",
       "type": "State",
       "authority": "Anti-Corruption Bureau",
-      "url": "https://acb.maharashtra.gov.in/",
+      "url": "https://acb.maharashtra.gov.in/bribe-complaint",
       "complaintTypes": ["Bribe / Trap", "Disproportionate Assets (DA)", "Corruption"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Immediate trap deployment requires complainant verification.",
@@ -203,11 +203,11 @@ export const directoryData = {
       "name": "Manipur",
       "type": "State",
       "authority": "Vigilance & Anti-Corruption Bureau",
-      "url": "https://manipur.gov.in/",
+      "url": "https://dvac.mn.gov.in/contact-us/",
       "complaintTypes": ["Bribery", "Corruption", "Disproportionate Assets (DA)"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Handled via State Vigilance Department.",
-      "phone": "1064*",
+      "phone": "0385-2415717",
       "escalation": "ACB / Vigilance → Lokayukta",
       "isFormVerified": false,
       "notes": "Submissions processed via State Government portal."
@@ -231,11 +231,11 @@ export const directoryData = {
       "name": "Mizoram",
       "type": "State",
       "authority": "Anti-Corruption Bureau / Lokayukta",
-      "url": "https://mizoram.gov.in/",
+      "url": "https://acb.mizoram.gov.in/",
       "complaintTypes": ["Bribery", "Corruption", "Disproportionate Assets (DA)"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Source info evaluated prior to formal enquiry.",
-      "phone": "1064*",
+      "phone": "0389-2333975",
       "escalation": "ACB / Lokayukta → State Govt",
       "isFormVerified": false,
       "notes": "Aizawl ACB headquarters."
@@ -245,7 +245,7 @@ export const directoryData = {
       "name": "Nagaland",
       "type": "State",
       "authority": "State Vigilance Commission",
-      "url": "https://nagaland.gov.in/",
+      "url": "https://dpar.nagaland.gov.in/state-vigilance-commission/",
       "complaintTypes": ["Corruption", "Misconduct", "Vigilance"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Standard vigilance procedures apply.",
@@ -291,7 +291,7 @@ export const directoryData = {
       "complaintTypes": ["Bribery", "Disproportionate Assets (DA)", "Corruption"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Helpline 1064 handles real-time bribe demand traps.",
-      "phone": "1064",
+      "phone": "1064; WhatsApp: 9413502834",
       "escalation": "DG, ACB → Lokayukta",
       "isFormVerified": true,
       "notes": "Jaipur ACB headquarters."
@@ -300,12 +300,12 @@ export const directoryData = {
       "id": "SK",
       "name": "Sikkim",
       "type": "State",
-      "authority": "State Vigilance Police",
-      "url": "https://sikkim.gov.in/",
+      "authority": "Sikkim Vigilance Police",
+      "url": "https://www.sikkim.gov.in/departments/sikkim-vigilance-police-department",
       "complaintTypes": ["Corruption", "Bribery", "Misconduct"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Complaints routed through State Police Vigilance.",
-      "phone": "1064*",
+      "phone": "03592-202480",
       "escalation": "Vigilance → Lokayukta / State Govt",
       "isFormVerified": false,
       "notes": "Gangtok vigilance headquarters."
@@ -357,11 +357,11 @@ export const directoryData = {
       "name": "Uttar Pradesh",
       "type": "State",
       "authority": "Anti-Corruption Organisation / Vigilance Establishment",
-      "url": "https://vigilance.up.gov.in/",
+      "url": "https://uppolice.gov.in/article/en/anti-corruption-org",
       "complaintTypes": ["Bribe", "Corruption", "Disproportionate Assets (DA)"],
       "anonymousSupport": "Limited",
       "anonymousDetails": "Helpline 1076 CM helpline integration.",
-      "phone": "1076*",
+      "phone": "0522-2390247; Control Room: 9454402484",
       "escalation": "ADG / Director Vigilance → Lokayukta",
       "isFormVerified": false,
       "notes": "Lucknow Vigilance headquarters."
@@ -407,7 +407,7 @@ export const directoryData = {
       "anonymousDetails": "Explicitly verifies complainant address. Unverified address complaints are treated as anonymous/pseudonymous and NO ACTION IS TAKEN.",
       "phone": "Police Control Room: 100; Portal contacts",
       "escalation": "CVO, A&N Administration",
-      "isFormVerified": true,
+      "isFormVerified": false,
       "notes": "Explicitly outlines trap procedure and address verification rule."
     },
     {
@@ -498,15 +498,15 @@ export const directoryData = {
       "id": "PY",
       "name": "Puducherry",
       "type": "Union Territory",
-      "authority": "Directorate of Vigilance & Anti-Corruption",
-      "url": "https://www.py.gov.in/",
+      "authority": "Chief Vigilance Office / Vigilance & Anti-Corruption Police Unit, Puducherry",
+      "url": "https://cvo.py.gov.in/procedure.htm",
       "complaintTypes": ["Bribery", "Corruption", "Disproportionate Assets (DA)"],
       "anonymousSupport": "Limited",
-      "anonymousDetails": "Anti-corruption helpline active.",
-      "phone": "1031 / 0413-2231444*",
+      "anonymousDetails": "Complaints are addressed directly to the Chief Vigilance Office.",
+      "phone": "0413-2238016",
       "escalation": "Director, Vigilance → UT Govt",
       "isFormVerified": false,
-      "notes": "Puducherry DVAC office."
+      "notes": "Vigilance & Anti-Corruption Police Unit, M.G. Road, Muthialpet, Puducherry."
     }
   ]
 };
