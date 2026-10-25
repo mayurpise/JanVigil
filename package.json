@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test test/phone.test.mjs test/data.test.mjs"
+    "test": "node --test test/phone.test.mjs test/data.test.mjs test/pages.test.mjs"
   },
   "devDependencies": {
     "vite": "^5.4.0"
