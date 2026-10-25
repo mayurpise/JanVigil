@@ -10,7 +10,7 @@ Thank you for helping keep **JanVigil.in** accurate, up-to-date, and actionable 
 
 ## Data Structure Guidelines
 
-All agency data is maintained in `data/anti_corruption_directory.json`. When modifying an entry, ensure the following fields are preserved:
+All agency data is maintained in `data/anti_corruption_directory.js`. When modifying an entry, ensure the following fields are preserved:
 
 ```json
 {

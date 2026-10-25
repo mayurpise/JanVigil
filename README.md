@@ -68,7 +68,7 @@ flowchart TD
 ```text
 JanVigil/
 ├── data/
-│   ├── anti_corruption_directory.json  # Full dataset (28 States + 8 UTs)
+│   ├── anti_corruption_directory.js  # Full dataset (28 States + 8 UTs)
 │   └── reporting_guides.json          # Complaint types & escalation guides
 ├── src/
 │   ├── main.js                        # App state, filters, search, & dynamic render logic
@@ -105,7 +105,7 @@ npm run dev
 We welcome updates from legal practitioners, journalists, RTI activists, and citizens. If a phone number, helpline, or online portal URL changes in your State or UT:
 
 1. Review [CONTRIBUTING.md](file:///home/mayurpise/workspace/JanVigil/CONTRIBUTING.md).
-2. Submit a Pull Request updating `data/anti_corruption_directory.json` with official state portal citations.
+2. Submit a Pull Request updating `data/anti_corruption_directory.js` with official state portal citations.
 
 ---
 
