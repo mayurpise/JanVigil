@@ -485,6 +485,12 @@ function exportCSV() {
   showToast(`Exported ${items.length} records to CSV!`);
 }
 
+// Mirror the .active class into aria-pressed
+function setPressed(btn, pressed) {
+  btn.classList.toggle('active', pressed);
+  btn.setAttribute('aria-pressed', pressed);
+}
+
 // Clear the search box and query
 function clearSearch() {
   searchInputEl.value = '';
@@ -519,8 +525,8 @@ function initEvents() {
   // Filter Buttons
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      filterBtns.forEach(b => setPressed(b, false));
+      setPressed(btn, true);
       currentFilter = btn.dataset.filter;
       render();
     });
@@ -528,15 +534,15 @@ function initEvents() {
 
   // View Switcher
   btnViewGrid.addEventListener('click', () => {
-    btnViewGrid.classList.add('active');
-    btnViewTable.classList.remove('active');
+    setPressed(btnViewGrid, true);
+    setPressed(btnViewTable, false);
     currentView = 'grid';
     render();
   });
 
   btnViewTable.addEventListener('click', () => {
-    btnViewTable.classList.add('active');
-    btnViewGrid.classList.remove('active');
+    setPressed(btnViewTable, true);
+    setPressed(btnViewGrid, false);
     currentView = 'table';
     render();
   });
@@ -562,8 +568,8 @@ function initEvents() {
   const guideTabBtns = document.querySelectorAll('.guide-tabs .tab-btn');
   guideTabBtns.forEach(tabBtn => {
     tabBtn.addEventListener('click', () => {
-      guideTabBtns.forEach(b => b.classList.remove('active'));
-      tabBtn.classList.add('active');
+      guideTabBtns.forEach(b => setPressed(b, false));
+      setPressed(tabBtn, true);
 
       const targetId = tabBtn.dataset.tab;
       document.querySelectorAll('.tab-content').forEach(tc => tc.style.display = 'none');
@@ -598,8 +604,8 @@ function initEvents() {
   btnResetFilters.addEventListener('click', () => {
     clearSearch();
     currentFilter = 'all';
-    filterBtns.forEach(b => b.classList.remove('active'));
-    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+    filterBtns.forEach(b => setPressed(b, false));
+    setPressed(document.querySelector('.filter-btn[data-filter="all"]'), true);
     render();
   });
 
