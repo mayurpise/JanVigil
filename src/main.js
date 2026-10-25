@@ -109,12 +109,6 @@ function getFilteredItems() {
   });
 }
 
-// Safely escape and sanitize HTML strings
-function safeText(str) {
-  if (!str) return '';
-  return String(str);
-}
-
 // Toast helper
 function showToast(message) {
   const toast = document.createElement('div');
@@ -397,7 +391,10 @@ function openDetailModal(item) {
   const hAuth = document.createElement('h4');
   hAuth.textContent = `Primary Authority: ${item.authority}`;
   const pEsc = document.createElement('p');
-  pEsc.innerHTML = `<strong>Escalation Hierarchy:</strong> ${safeText(item.escalation)}`;
+  const escLabel = document.createElement('strong');
+  escLabel.textContent = 'Escalation Hierarchy:';
+  pEsc.appendChild(escLabel);
+  pEsc.appendChild(document.createTextNode(` ${item.escalation}`));
   authBox.appendChild(hAuth);
   authBox.appendChild(pEsc);
 
