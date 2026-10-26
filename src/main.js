@@ -240,6 +240,14 @@ function createCallNode(item, withNumber) {
   return link;
 }
 
+// For regions without a dialable number: the portal takes the call button's place
+function createPortalPill(item, label) {
+  const link = createPortalLink(item.url, label);
+  link.className = 'portal-pill';
+  link.setAttribute('aria-label', `${label}, ${item.name} (opens in a new tab)`);
+  return link;
+}
+
 function createCopyNode(item) {
   if (telHref(item.phone) === '#') return null;
   const copyBtn = el('button', 'copy-btn btn-line', 'Copy number');
@@ -280,7 +288,7 @@ function createCardNode({ item, slot, ink }) {
 
   const actions = el('div', 'card-actions');
   const call = createCallNode(item, slot === 'L');
-  if (call) actions.appendChild(call);
+  actions.appendChild(call || createPortalPill(item, 'Open portal'));
   if (slot === 'L') {
     const copy = createCopyNode(item);
     if (copy) actions.appendChild(copy);
@@ -625,6 +633,16 @@ function closeModal(modalEl) {
   if (modalOpener) modalOpener.focus();
 }
 
+// Swap the detail sheet for the guide's trap tab; closing the guide returns focus
+// to whatever opened the detail sheet
+function openTrapGuideFromDetail() {
+  const opener = modalOpener;
+  closeModal(detailModalEl);
+  showGuideTab(guideTabBtns[0]);
+  openModal(guideModalEl, btnCloseModal);
+  modalOpener = opener;
+}
+
 function isModalOpen() {
   return [guideModalEl, detailModalEl].some(m => m.style.display === 'flex');
 }
@@ -653,7 +671,11 @@ function openDetailModal(item, ink) {
   if (call) actions.appendChild(call);
   const copy = createCopyNode(item);
   if (copy) actions.appendChild(copy);
-  if (actions.children.length) detailSummaryEl.appendChild(actions);
+  const portalLabel = item.isFormVerified ? 'Complain online' : 'Official portal';
+  const portalAction = createPortalPill(item, portalLabel);
+  if (call) portalAction.className = 'btn-line'; // a secondary action beside Call
+  actions.appendChild(portalAction);
+  detailSummaryEl.appendChild(actions);
 
   // How to report
   const types = el('ul', 'type-list');
@@ -662,7 +684,13 @@ function openDetailModal(item, ink) {
     ? el('p', 'form-yes', 'This agency has an online complaint form on its portal.')
     : el('p', null, 'No online complaint form has been confirmed. Call, or use the contact details on the portal.');
 
-  // Anonymous tips
+  // Anonymous tips, opened by the rule from the cover so it travels with every region
+  const trapRule = el('p', null, 'Anonymous tips can start an inquiry. To catch the official in the act, the bureau needs your name.');
+  const trapLink = el('button', 'text-link', 'Read the trap procedure');
+  trapLink.type = 'button';
+  trapLink.addEventListener('click', openTrapGuideFromDetail);
+  const trapLine = el('p');
+  trapLine.appendChild(trapLink);
   const anonRule = el('p', 'anon-rule', item.anonymousSupport);
   const anonDetails = el('p', null, item.anonymousDetails);
 
@@ -674,7 +702,7 @@ function openDetailModal(item, ink) {
 
   detailBodyEl.replaceChildren(
     sheetSection('How to report', el('p', null, 'This agency takes complaints about:'), types, form),
-    sheetSection('Anonymous tips', anonRule, anonDetails),
+    sheetSection('Anonymous tips', trapRule, trapLine, anonRule, anonDetails),
     sheetSection('If nothing happens', escalation),
   );
   if (item.notes) detailBodyEl.appendChild(sheetSection('Notes', el('p', null, item.notes)));
