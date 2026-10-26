@@ -45,6 +45,9 @@ const flipLayerEl = document.getElementById('flip-layer');
 const btnPrevPage = document.getElementById('btn-prev-page');
 const btnNextPage = document.getElementById('btn-next-page');
 const pageIndicatorEl = document.getElementById('page-indicator');
+const pageHintEl = document.getElementById('page-hint');
+const jumpStateEl = document.getElementById('jump-state');
+const jumpStateCoverEl = document.getElementById('jump-state-cover');
 
 const tableViewEl = document.getElementById('table-view');
 const tableBodyEl = document.getElementById('table-body');
@@ -117,6 +120,9 @@ function applyTheme(theme) {
 
 // Update filter badges counts
 function updateCounts() {
+  const on1064 = allAgencies.filter(a => telHref(a.phone) === 'tel:1064').length;
+  document.getElementById('count-1064').textContent = `${on1064} states and UTs`;
+
   document.getElementById('count-all').textContent = allAgencies.length;
   document.getElementById('count-states').textContent = directoryData.states.length;
   document.getElementById('count-uts').textContent = directoryData.unionTerritories.length;
@@ -249,6 +255,7 @@ function createCopyNode(item) {
 function createCardNode({ item, slot, ink }) {
   const card = el('article', `card card--${slot}`);
   card.dataset.ink = ink;
+  card.dataset.id = item.id;
 
   const head = el('div', 'card-head');
   if (slot === 'L') head.appendChild(el('p', 'card-kind', kindLabel(item)));
@@ -299,8 +306,13 @@ function createCardNode({ item, slot, ink }) {
   return card;
 }
 
-function createPageNode(page) {
+function createPageNode(page, heading) {
   const section = el('section', 'page page-agency');
+  // A heading for the page gives the tile headings a parent in the outline
+  const h2 = el('h2', 'visually-hidden', heading);
+  h2.id = `page-heading-${heading.match(/\d+/)[0]}`;
+  section.setAttribute('aria-labelledby', h2.id);
+  section.appendChild(h2);
   section.style.gridTemplateColumns = `repeat(${page.columns}, minmax(0, 1fr))`;
   section.style.gridTemplateRows = page.rows.join(' ');
   section.style.gridTemplateAreas = page.areas.map(row => `"${row}"`).join(' ');
@@ -389,8 +401,16 @@ function createTableRowNode(item, index) {
 
 // ---------- The book ----------
 
-// Show one page; the others stay in the DOM but are inert and hidden
-function showPage(index) {
+// "Himachal Pradesh to Meghalaya": the first and last names on a page
+function rangeOf(page) {
+  if (page === coverEl) return 'Cover';
+  const names = [...page.querySelectorAll('.card-region-title')].map(title => title.textContent);
+  return names.length > 1 ? `${names[0]} to ${names[names.length - 1]}` : names[0];
+}
+
+// Show one page; the others stay in the DOM but are inert and hidden. Only a reader's
+// own page turn is announced, not the re-pagination after a search or filter.
+function showPage(index, announce = false) {
   pageIndex = index;
   pageEls.forEach((page, i) => {
     const current = i === index;
@@ -399,9 +419,48 @@ function showPage(index) {
     if (current) page.removeAttribute('aria-hidden');
     else page.setAttribute('aria-hidden', 'true');
   });
-  pageIndicatorEl.textContent = `Page ${index + 1} of ${pageEls.length}`;
+  const total = pageEls.length;
+  pageIndicatorEl.setAttribute('aria-live', announce ? 'polite' : 'off');
+  pageIndicatorEl.textContent = `Page ${index + 1} of ${total}: ${rangeOf(pageEls[index])}`;
   btnPrevPage.disabled = index === 0;
-  btnNextPage.disabled = index >= pageEls.length - 1;
+  btnNextPage.disabled = index >= total - 1;
+  btnPrevPage.setAttribute('aria-label', index > 0 ? `Previous page: ${rangeOf(pageEls[index - 1])}` : 'Previous page');
+  btnNextPage.setAttribute('aria-label', index < total - 1 ? `Next page: ${rangeOf(pageEls[index + 1])}` : 'Next page');
+  btnPrevPage.hidden = total < 2;
+  btnNextPage.hidden = total < 2;
+  bookEl.classList.toggle('on-cover', pageEls[index] === coverEl);
+}
+
+// "Go to a state" pickers list the current results, grouped by kind
+function fillJumpPickers(items) {
+  [[jumpStateEl, 'Go to a state or UT'], [jumpStateCoverEl, 'Choose a state or UT']].forEach(([select, prompt]) => {
+    const first = el('option', null, prompt);
+    first.value = '';
+    select.replaceChildren(first);
+    [['State', 'States'], ['Union Territory', 'Union territories']].forEach(([type, label]) => {
+      const members = items.filter(item => item.type === type);
+      if (!members.length) return;
+      const group = document.createElement('optgroup');
+      group.label = label;
+      members.forEach(item => {
+        const option = el('option', null, item.name);
+        option.value = item.id;
+        group.appendChild(option);
+      });
+      select.appendChild(group);
+    });
+  });
+}
+
+// Jump (no fold) to a region's page and open its sheet; closing it returns focus to the tile
+function jumpTo(id) {
+  const index = pageEls.findIndex(page => page.querySelector(`.card[data-id="${id}"]`));
+  if (index < 0) return;
+  cancelFlip();
+  showPage(index, true);
+  const opener = pageEls[index].querySelector(`.card[data-id="${id}"] .btn-detail`);
+  opener.focus();
+  opener.click();
 }
 
 function cancelFlip() {
@@ -419,10 +478,18 @@ function renderBook(items) {
   gridViewEl.querySelectorAll('.page-agency').forEach(page => page.remove());
   renderedLayout = currentLayout();
   gridViewEl.dataset.layout = renderedLayout;
-  const agencyPages = paginate(items, renderedLayout).map(createPageNode);
+  const pages = paginate(items, renderedLayout);
+  const offset = withCover ? 1 : 0;
+  const total = pages.length + offset;
+  const agencyPages = pages.map((page, i) => {
+    const names = page.tiles.map(tile => tile.item.name);
+    const range = names.length > 1 ? `${names[0]} to ${names[names.length - 1]}` : names[0];
+    return createPageNode(page, `Page ${i + 1 + offset} of ${total}: ${range}`);
+  });
   agencyPages.forEach(page => gridViewEl.appendChild(page));
   pageEls = withCover ? [coverEl, ...agencyPages] : agencyPages;
-  pageEls.forEach((page, i) => page.setAttribute('aria-label', `Page ${i + 1} of ${pageEls.length}`));
+  if (withCover) coverEl.setAttribute('aria-label', `Page 1 of ${total}: Cover`);
+  fillJumpPickers(items);
   showPage(0);
 }
 
@@ -503,10 +570,11 @@ async function turnPage(step, moveFocus) {
   else await fold(fromPage, toPage, step > 0);
   if (token !== flipToken) return; // re-rendered mid-flip
 
-  showPage(target);
+  showPage(target, true);
   flipLayerEl.replaceChildren();
   flipping = false;
-  if (moveFocus) toPage.querySelector('h2, h3')?.focus();
+  pageHintEl.hidden = true; // the phone swipe hint shows until the first turn
+  if (moveFocus) toPage.querySelector('.cover-title, .card-region-title').focus();
 
   const next = queuedTurn;
   queuedTurn = null;
@@ -518,9 +586,9 @@ function render() {
   const items = getFilteredItems();
 
   // Results Count Text
-  resultsCountEl.textContent = items.length === allAgencies.length
-    ? `Showing all ${items.length} agencies`
-    : `Showing ${items.length} of ${allAgencies.length} agencies`;
+  if (items.length === 0) resultsCountEl.textContent = 'No state or agency matches that search.';
+  else if (items.length === allAgencies.length) resultsCountEl.textContent = `Showing all ${items.length} agencies`;
+  else resultsCountEl.textContent = `Showing ${items.length} of ${allAgencies.length} agencies`;
   resultsCountEl.classList.toggle('is-quiet', items.length === allAgencies.length);
 
   const empty = items.length === 0;
@@ -719,6 +787,14 @@ function initEvents() {
   // Page turns: buttons, keys, swipe; a new layout re-paginates
   btnPrevPage.addEventListener('click', () => turnPage(-1, true));
   btnNextPage.addEventListener('click', () => turnPage(1, true));
+
+  [jumpStateEl, jumpStateCoverEl].forEach(select => {
+    select.addEventListener('change', () => {
+      const id = select.value;
+      select.value = '';
+      if (id) jumpTo(id);
+    });
+  });
 
   window.addEventListener('keydown', (e) => {
     if (currentView !== 'grid' || isModalOpen() || e.altKey || e.ctrlKey || e.metaKey) return;

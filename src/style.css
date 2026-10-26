@@ -166,7 +166,7 @@ a { color: inherit; }
 
 @media (hover: hover) {
   .btn-quiet:hover, .btn-secondary:hover, .btn-line:hover, .filter-btn:not(.active):hover,
-  .toggle-btn:not(.active):hover, .tab-btn:not(.active):hover, .page-btn:not(:disabled):hover { background: var(--haze); }
+  .toggle-btn:not(.active):hover, .tab-btn:not(.active):hover, .page-btn-prev:not(:disabled):hover { background: var(--haze); }
   .card--L .btn-line:hover, .sheet-head .btn-line:hover, .sheet-close:hover { background: rgba(255, 255, 255, .14); }
 }
 
@@ -307,7 +307,29 @@ a { color: inherit; }
 #grid-view[data-layout="desktopShort"] { --l-reserve: 300px; --cover-reserve: 265px; }
 
 .book-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; }
-.book-nav-center { min-width: 0; text-align: center; }
+.book-nav-center { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; min-height: 44px; }
+.page-hint { display: none; }
+.book.on-cover .book-nav .jump-select { visibility: hidden; } /* the cover has its own picker */
+
+.jump-select {
+  appearance: none;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0 38px 0 14px;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background-color: var(--tile);
+  color: var(--text);
+  /* a chevron drawn in the text colour */
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  font: inherit;
+  cursor: pointer;
+}
+.jump-select option, .jump-select optgroup { color: #1C1530; background: #FFFFFF; }
 .book-pages > .page { grid-area: 1 / 1; }
 .book-pages > .page:not(.is-current) { visibility: hidden; }
 
@@ -323,7 +345,8 @@ a { color: inherit; }
 }
 .page-btn:disabled { opacity: .35; }
 .page-btn .icon { width: 1.5rem; height: 1.5rem; }
-.page-indicator { font-size: 1.25rem; }
+.page-indicator { min-width: 0; font-size: 1.25rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.page-btn-next:not(:disabled) { background: var(--primary-bg); border-color: var(--primary-bg); color: var(--primary-text); }
 
 /* ---------- Agency pages: grid templates come from pages.js, set inline ---------- */
 
@@ -462,6 +485,16 @@ a { color: inherit; }
   padding: 16px 20px 18px;
 }
 .cover-lines a { display: grid; min-height: 44px; text-decoration: none; }
+.cover-find { grid-column: 1 / -1; display: grid; align-content: end; }
+.jump-select-cover {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid #FFFFFF;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
 .cover-number {
   font-size: clamp(1.75rem, 11cqi, 5rem);
   line-height: 1;
@@ -654,17 +687,25 @@ a { color: inherit; }
 @media (max-width: 639.98px) {
   .stage { padding: 0; }
   .book { row-gap: 0; }
+  .book-nav-center { display: grid; gap: 2px; justify-items: stretch; }
+  .page-indicator { font-size: .875rem; line-height: 1.25; text-align: center; }
+  .page-hint:not([hidden]) { display: flex; align-items: center; justify-content: center; min-height: 44px; color: var(--muted); font-size: .9375rem; }
+  .page-hint:not([hidden]) ~ .jump-select { display: none; }
   /* The page controls stay on screen while the page scrolls */
   .book-nav {
     position: sticky;
     bottom: 0;
     z-index: 3;
-    padding: 8px 16px;
+    padding: 6px 16px;
     background: var(--page);
     border-top: 1px solid var(--rule);
   }
+  /* A compact cover, so it fits above the page controls */
+  .cover-main { gap: 10px; padding: 16px 16px 14px; }
+  .cover-lines { gap: 8px 20px; padding: 12px 16px 14px; }
+  .cover-rule { gap: 8px; padding: 12px 16px 16px; }
   .sheet-backdrop { background: var(--page); }
-  .cover-title { font-size: clamp(2.25rem, 15cqi, 4rem); }
+  .cover-title { font-size: clamp(2.25rem, 14cqi, 4rem); }
   .cover-title span { display: block; } /* phones: one sentence a line */
 }
 
@@ -715,9 +756,14 @@ a { color: inherit; }
   .stage { padding-block: 12px; }
   .book { row-gap: 6px; }
   .book-pages { min-height: clamp(400px, calc(100dvh - var(--chrome)), 860px); }
-  .book-nav { grid-template-columns: minmax(0, 1fr); min-height: 36px; }
+  .book-nav { grid-template-columns: minmax(0, 1fr); }
+  .book-nav-center { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .book-nav .jump-select { grid-column: 1; grid-row: 1; justify-self: start; }
+  .page-indicator { grid-column: 2; grid-row: 1; }
+  .cover-find { grid-column: auto; }
+  .cover-lines { grid-template-columns: minmax(200px, 260px) repeat(3, auto); align-items: end; }
   /* buttons sit in the gutters, centred on the frame (the nav row is about 42px with its gap) */
-  .page-btn { position: absolute; top: calc(50% - 43px); width: 44px; height: 44px; }
+  .page-btn { position: absolute; top: calc(50% - 47px); width: 44px; height: 44px; }
   .page-btn-prev { left: -50px; }
   .page-btn-next { right: -50px; }
   .page-indicator { font-size: 1.125rem; line-height: 1.6; }
@@ -728,7 +774,7 @@ a { color: inherit; }
     grid-template-areas: "main main" "lines rule";
   }
   .cover-main { grid-area: main; padding: 40px 44px 36px; }
-  .cover-lines { grid-area: lines; gap: 12px 48px; padding: 28px 44px 32px; }
+  .cover-lines { grid-area: lines; gap: 12px 32px; padding: 28px 44px 32px; }
   .cover-rule { grid-area: rule; padding: 26px 36px 32px; }
   .cover-rule-title { font-size: clamp(1.75rem, 9cqi, 2.75rem); }
 

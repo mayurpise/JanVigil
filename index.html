@@ -183,7 +183,7 @@
           </button>
         </div>
 
-        <p id="results-count-text" class="results-count">Showing 36 of 36 agencies</p>
+        <p id="results-count-text" class="results-count" role="status">Showing all 36 agencies</p>
       </div>
     </div>
 
@@ -197,7 +197,11 @@
                 <p class="cover-standfirst">Every state’s and union territory’s anti-corruption line in one place. Call before you pay, and the bureau can catch the official in the act.</p>
               </div>
               <ul class="cover-lines" aria-label="Main helplines">
-                <li><a href="tel:1064"><span class="cover-number">1064</span><span class="cover-caption">many states</span></a></li>
+                <li class="cover-find">
+                  <select id="jump-state-cover" class="jump-select jump-select-cover"></select>
+                  <label class="cover-caption" for="jump-state-cover">Find your state’s number</label>
+                </li>
+                <li><a href="tel:1064"><span class="cover-number">1064</span><span class="cover-caption" id="count-1064">14 states and UTs</span></a></li>
                 <li><a href="tel:14400"><span class="cover-number">14400</span><span class="cover-caption">Andhra Pradesh</span></a></li>
                 <li><a href="tel:1031"><span class="cover-number">1031</span><span class="cover-caption">Delhi</span></a></li>
               </ul>
@@ -217,6 +221,9 @@
           </button>
           <div class="book-nav-center">
             <p id="page-indicator" class="page-indicator" aria-live="polite">Page 1 of 6</p>
+            <p id="page-hint" class="page-hint">Swipe, or tap › for the next page</p>
+            <label class="visually-hidden" for="jump-state">Go to a state</label>
+            <select id="jump-state" class="jump-select"></select>
           </div>
           <button id="btn-next-page" class="page-btn page-btn-next" type="button" aria-label="Next page">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
