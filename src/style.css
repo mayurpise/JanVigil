@@ -200,7 +200,7 @@ a { color: inherit; }
   }
 }
 @media (min-width: 640px) {
-  .masthead .icon, .toggle-btn .icon { display: none; }
+  .masthead .icon, .toggle-btn .icon, .label-narrow { display: none; }
 }
 
 /* ---------- Toolbar ---------- */
@@ -705,6 +705,11 @@ a { color: inherit; }
     background: var(--page);
     border-top: 1px solid var(--rule);
   }
+  /* 44px touch targets for text links */
+  .card-links .url-link, .sheet-section .url-link { display: inline-flex; align-items: center; min-height: 44px; }
+  /* The table button keeps a visible word on phones: "List" says all of them at once */
+  #btn-view-table { width: auto; gap: 6px; padding: 0 12px; }
+  #btn-view-table .label-wide { display: none; }
   /* A compact cover, so it fits above the page controls */
   .cover-main { gap: 10px; padding: 16px 16px 14px; }
   .cover-lines { gap: 8px 20px; padding: 12px 16px 14px; }
@@ -816,7 +821,7 @@ a { color: inherit; }
   .cover-standfirst { display: none; }
 }
 
-/* Table collapses to stacked rows below 900px */
+/* Below 900px the table becomes a list: name, helpline and Details; the rest is in the sheet */
 @media (max-width: 899.98px) {
   .directory-table thead {
     position: absolute;
@@ -825,15 +830,21 @@ a { color: inherit; }
     overflow: hidden;
     clip-path: inset(50%);
   }
-  .directory-table, .directory-table tbody, .directory-table tr, .directory-table td { display: block; }
-  .directory-table tr { padding: 16px; }
-  .directory-table td { padding: 4px 0; }
-  .directory-table td[data-label]::before {
-    content: attr(data-label);
-    display: block;
-    color: var(--muted);
-    font-size: .875rem;
+  .directory-table, .directory-table tbody { display: block; }
+  .directory-table tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name actions" "phone actions";
+    align-items: center;
+    column-gap: 12px;
+    padding: 12px 16px;
   }
+  .directory-table td { display: block; padding: 0; }
+  .directory-table td:not(.td-name, .td-phone, .td-actions) { display: none; }
+  .directory-table .td-name { grid-area: name; }
+  .directory-table .td-phone { grid-area: phone; }
+  .directory-table .td-actions { grid-area: actions; }
+  .directory-table .phone-pill { display: inline-flex; align-items: center; min-height: 44px; }
 }
 
 /* Forced colours drop background fills, so pressed controls also get an outline */

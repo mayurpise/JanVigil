@@ -346,7 +346,7 @@ function createTableRowNode(item, index) {
   };
 
   // Region
-  const tdRegion = document.createElement('td');
+  const tdRegion = el('td', 'td-name');
   tdRegion.appendChild(el('strong', null, item.name));
   tdRegion.appendChild(el('span', 'table-kind', kindLabel(item)));
 
@@ -356,6 +356,7 @@ function createTableRowNode(item, index) {
 
   // Phone
   const tdPhone = cell('Helpline');
+  tdPhone.className = 'td-phone';
   const parts = dialParts(item.phone);
   const href = telHref(item.phone);
   if (href === '#') {
@@ -391,10 +392,10 @@ function createTableRowNode(item, index) {
   tdUrl.appendChild(portal);
 
   // Action
-  const tdAction = document.createElement('td');
+  const tdAction = el('td', 'td-actions');
   const btnAction = el('button', 'btn btn-secondary', 'Details');
   btnAction.type = 'button';
-  btnAction.setAttribute('aria-label', `How to report in ${item.name}`);
+  btnAction.setAttribute('aria-label', `Details for ${item.name}`);
   btnAction.addEventListener('click', () => openDetailModal(item, INKS[index % INKS.length]));
   tdAction.appendChild(btnAction);
 
