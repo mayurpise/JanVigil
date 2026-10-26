@@ -57,7 +57,17 @@ test('tablet and mobile pages are never mirrored', () => {
   assert.deepEqual(mirrored, []);
 });
 
-test('ink cycles violet, red, green, blue by position in the list', () => {
-  const inks = paginate(items, 'mobile').flatMap((page) => page.tiles).slice(0, 6).map((tile) => tile.ink);
-  assert.deepEqual(inks, ['violet', 'red', 'green', 'blue', 'violet', 'red']);
+test('desktop: each page cover advances one ink, violet, red, green, blue', () => {
+  const coverInks = paginate(items, 'desktop').map((page) => page.tiles[0].ink);
+  assert.deepEqual(coverInks, ['violet', 'red', 'green', 'blue', 'violet']);
+});
+
+test('desktop: inks cycle across the tiles of a page from that page cover', () => {
+  const inks = paginate(items, 'desktop')[1].tiles.map((tile) => tile.ink);
+  assert.deepEqual(inks, ['red', 'green', 'blue', 'violet', 'red', 'green', 'blue', 'violet']);
+});
+
+test('mobile: each page cover advances one ink', () => {
+  const coverInks = paginate(items, 'mobile').slice(0, 5).map((page) => page.tiles[0].ink);
+  assert.deepEqual(coverInks, ['violet', 'red', 'green', 'blue', 'violet']);
 });
