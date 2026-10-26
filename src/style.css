@@ -785,7 +785,9 @@ a { color: inherit; }
   .book-nav .jump-select { grid-column: 1; grid-row: 1; justify-self: start; }
   .page-indicator { grid-column: 2; grid-row: 1; }
   .cover-find { grid-column: auto; }
-  .cover-lines { grid-template-columns: minmax(200px, 260px) repeat(3, auto); align-items: end; }
+  /* numbers top-aligned with the picker, so a two-line caption doesn't push a number down */
+  .cover-lines { grid-template-columns: minmax(210px, 260px) repeat(3, auto); align-items: start; column-gap: 20px; }
+  .jump-select-cover { font-size: 1rem; }
   /* buttons sit in the gutters, centred on the frame (the nav row is about 42px with its gap) */
   .page-btn { position: absolute; top: calc(50% - 47px); width: 44px; height: 44px; }
   .page-btn-prev { left: -50px; }
@@ -798,7 +800,7 @@ a { color: inherit; }
     grid-template-areas: "main main" "lines rule";
   }
   .cover-main { grid-area: main; padding: 40px 44px 36px; }
-  .cover-lines { grid-area: lines; gap: 12px 32px; padding: 28px 44px 32px; }
+  .cover-lines { grid-area: lines; gap: 12px 20px; padding: 28px 44px 32px; }
   .cover-rule { grid-area: rule; padding: 26px 36px 32px; }
   .cover-rule-title { font-size: clamp(1.75rem, 9cqi, 2.75rem); }
 
@@ -816,6 +818,8 @@ a { color: inherit; }
     padding-block: 10px;
   }
   .results-count { white-space: nowrap; }
+  .cover-lines { column-gap: 32px; }
+  .jump-select-cover { font-size: 1.125rem; }
 }
 
 /* Short desktop screens (e.g. 1366x768 laptops): tighter tiles and cover */
