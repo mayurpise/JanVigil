@@ -279,9 +279,16 @@ function createCardNode({ item, slot, ink }) {
 
 function createPageNode(page) {
   const section = el('section', 'page page-agency');
-  section.dataset.count = page.tiles.length;
-  if (page.mirrored) section.classList.add('is-mirrored');
-  page.tiles.forEach(tile => section.appendChild(createCardNode(tile)));
+  section.style.gridTemplateColumns = `repeat(${page.columns}, minmax(0, 1fr))`;
+  section.style.gridTemplateRows = page.rows.join(' ');
+  section.style.gridTemplateAreas = page.areas.map(row => `"${row}"`).join(' ');
+  page.tiles.forEach(tile => {
+    const card = createCardNode(tile);
+    card.dataset.slot = tile.slot;
+    card.dataset.area = tile.area;
+    card.style.gridArea = tile.area;
+    section.appendChild(card);
+  });
   return section;
 }
 

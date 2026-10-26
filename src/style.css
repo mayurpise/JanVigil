@@ -321,27 +321,13 @@ a { color: inherit; }
 .page-btn .icon { width: 1.5rem; height: 1.5rem; }
 .page-indicator { grid-area: indicator; text-align: center; font-size: 1.25rem; }
 
-/* ---------- Agency pages: tile grid per layout and per tile count ---------- */
+/* ---------- Agency pages: grid templates come from pages.js, set inline ---------- */
 
 .page-agency {
   display: grid;
   gap: 2px;
   background: var(--page);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: 1fr auto; /* the cover absorbs spare height */
-  grid-template-areas: "a a" "b c";
 }
-.page-agency[data-count="2"] { grid-template-areas: "a a" "b b"; }
-.page-agency[data-count="1"] { grid-template-rows: 1fr; grid-template-areas: "a a"; }
-
-.page-agency > .card:nth-child(1) { grid-area: a; }
-.page-agency > .card:nth-child(2) { grid-area: b; }
-.page-agency > .card:nth-child(3) { grid-area: c; }
-.page-agency > .card:nth-child(4) { grid-area: d; }
-.page-agency > .card:nth-child(5) { grid-area: e; }
-.page-agency > .card:nth-child(6) { grid-area: f; }
-.page-agency > .card:nth-child(7) { grid-area: g; }
-.page-agency > .card:nth-child(8) { grid-area: h; }
 
 /* ---------- Tiles ---------- */
 /* Name sizes take the smallest of: a width cap, a cap that keeps the longest word on one
@@ -689,14 +675,6 @@ a { color: inherit; }
   .card--S .card-region-title { font-size: clamp(1.375rem, min(9cqi, calc(200cqi / var(--word)), calc(300cqi / var(--len))), 2.25rem); }
   .card--S .card-number { font-size: clamp(1.375rem, 7cqi, 2rem); }
   .cover-rule-title { font-size: clamp(1.75rem, 5cqi, 2.75rem); }
-  .page-agency {
-    grid-template-rows: 1fr 1fr auto auto;
-    grid-template-areas: "a a" "a a" "b c" "d e";
-  }
-  .page-agency[data-count="4"] { grid-template-areas: "a a" "a a" "b c" "d d"; }
-  .page-agency[data-count="3"] { grid-template-rows: 1fr 1fr auto; grid-template-areas: "a a" "a a" "b c"; }
-  .page-agency[data-count="2"] { grid-template-rows: 1fr 1fr auto; grid-template-areas: "a a" "a a" "b b"; }
-  .page-agency[data-count="1"] { grid-template-rows: 1fr; grid-template-areas: "a a"; }
   .sheet-head { padding: 22px 28px 28px; }
   .sheet-body { padding: 4px 28px 32px; }
   .sheet-foot { padding: 12px 28px; }
@@ -739,82 +717,6 @@ a { color: inherit; }
   .cover-rule-title { font-size: clamp(1.75rem, 9cqi, 2.75rem); }
 
   .card--L { padding: 28px 32px 32px; }
-  .page-agency {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: 1fr 1fr auto;
-    grid-template-areas:
-      "a a a a a a b b b c c c"
-      "a a a a a a d d d d d d"
-      "e e e f f f g g g h h h";
-  }
-  .page-agency[data-count="7"] {
-    grid-template-areas:
-      "a a a a a a b b b c c c"
-      "a a a a a a d d d d d d"
-      "e e e e f f f f g g g g";
-  }
-  .page-agency[data-count="6"] {
-    grid-template-areas:
-      "a a a a a a b b b c c c"
-      "a a a a a a d d d d d d"
-      "e e e e e e f f f f f f";
-  }
-  .page-agency[data-count="5"] {
-    grid-template-areas:
-      "a a a a a a b b b c c c"
-      "a a a a a a d d d d d d"
-      "e e e e e e e e e e e e";
-  }
-  .page-agency[data-count="4"] {
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-areas:
-      "a a a a a a b b b c c c"
-      "a a a a a a d d d d d d";
-  }
-  .page-agency[data-count="3"] {
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-areas:
-      "a a a a a a b b b b b b"
-      "a a a a a a c c c c c c";
-  }
-  .page-agency[data-count="2"] { grid-template-rows: 1fr; grid-template-areas: "a a a a a a b b b b b b"; }
-  .page-agency[data-count="1"] { grid-template-rows: 1fr; grid-template-areas: "a a a a a a a a a a a a"; }
-  /* Mirrored pages move the cover to the right; rows still read left to right */
-  .page-agency.is-mirrored {
-    grid-template-areas:
-      "b b b c c c a a a a a a"
-      "d d d d d d a a a a a a"
-      "e e e f f f g g g h h h";
-  }
-  .page-agency.is-mirrored[data-count="7"] {
-    grid-template-areas:
-      "b b b c c c a a a a a a"
-      "d d d d d d a a a a a a"
-      "e e e e f f f f g g g g";
-  }
-  .page-agency.is-mirrored[data-count="6"] {
-    grid-template-areas:
-      "b b b c c c a a a a a a"
-      "d d d d d d a a a a a a"
-      "e e e e e e f f f f f f";
-  }
-  .page-agency.is-mirrored[data-count="5"] {
-    grid-template-areas:
-      "b b b c c c a a a a a a"
-      "d d d d d d a a a a a a"
-      "e e e e e e e e e e e e";
-  }
-  .page-agency.is-mirrored[data-count="4"] {
-    grid-template-areas:
-      "b b b c c c a a a a a a"
-      "d d d d d d a a a a a a";
-  }
-  .page-agency.is-mirrored[data-count="3"] {
-    grid-template-areas:
-      "b b b b b b a a a a a a"
-      "c c c c c c a a a a a a";
-  }
-  .page-agency.is-mirrored[data-count="2"] { grid-template-areas: "b b b b b b a a a a a a"; }
 }
 
 /* Wide desktop: the toolbar fits on one row, which leaves the book more height */
