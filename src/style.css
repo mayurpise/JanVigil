@@ -566,7 +566,7 @@ a { color: inherit; }
   animation: sheet-in 250ms var(--ease-page);
 }
 @keyframes sheet-in {
-  from { transform: translateX(40px); opacity: 0; }
+  from { transform: translateX(24px); opacity: 0; } /* small enough that the close button never leaves the screen */
 }
 .sheet-head {
   container-type: inline-size;
