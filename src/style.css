@@ -494,17 +494,18 @@ a { color: inherit; }
 .cover-title { font-size: clamp(2.25rem, min(13.5cqi, calc((100dvh - var(--chrome) - var(--cover-reserve)) * .5)), 9.5rem); }
 .cover-title span { display: inline-block; } /* break between sentences, not inside them */
 .cover-standfirst { margin-top: auto; max-width: 34em; font-size: clamp(1rem, 2cqi, 1.375rem); line-height: 1.4; }
+/* A wrapping row, so wider text spacing wraps a number instead of pushing it out of the tile */
 .cover-lines {
   container-type: inline-size;
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  justify-content: start;
-  align-content: end;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-end;
   gap: 12px 24px;
   padding: 16px 20px 18px;
 }
 .cover-lines a { display: grid; min-height: 44px; text-decoration: none; }
-.cover-find { grid-column: 1 / -1; display: grid; align-content: end; }
+.cover-find { flex: 1 1 100%; display: grid; }
 .jump-select-cover {
   width: 100%;
   min-height: 48px;
@@ -789,9 +790,9 @@ a { color: inherit; }
   .book-nav-center { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
   .book-nav .jump-select { grid-column: 1; grid-row: 1; justify-self: start; }
   .page-indicator { grid-column: 2; grid-row: 1; }
-  .cover-find { grid-column: auto; }
+  .cover-find { flex: 1 1 210px; max-width: 260px; }
   /* numbers top-aligned with the picker, so a two-line caption doesn't push a number down */
-  .cover-lines { grid-template-columns: minmax(210px, 260px) repeat(3, auto); align-items: start; column-gap: 20px; }
+  .cover-lines { column-gap: 20px; }
   .jump-select-cover { font-size: 1rem; }
   /* buttons sit in the gutters, centred on the frame (the nav row is about 42px with its gap) */
   .page-btn { position: absolute; top: calc(50% - 47px); width: 44px; height: 44px; }
