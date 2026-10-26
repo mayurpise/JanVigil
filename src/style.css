@@ -710,6 +710,7 @@ a { color: inherit; }
   .page-indicator { font-size: .875rem; line-height: 1.25; text-align: center; }
   .page-hint:not([hidden]) { display: flex; align-items: center; justify-content: center; min-height: 44px; color: var(--muted); font-size: .9375rem; }
   .page-hint:not([hidden]) ~ .jump-select { display: none; }
+  .book-nav .jump-select { padding: 0 28px 0 10px; font-size: .875rem; background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%; }
   /* The page controls stay on screen while the page scrolls */
   .book-nav {
     position: sticky;
@@ -738,6 +739,9 @@ a { color: inherit; }
 @media (min-width: 640px) {
   :root { --chrome: 290px; }
   .wrap { padding-inline: 24px; }
+  /* tablet page bar: the running head gets the room, the picker a fixed share */
+  .book-nav .jump-select { flex: 0 1 240px; }
+  .page-indicator { flex: 1 1 auto; font-size: 1.125rem; }
   .toolbar-inner {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas: "search view" "filters filters" "count count";
