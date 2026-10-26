@@ -26,6 +26,7 @@ let pageIndex = 0;
 let flipping = false;
 let flipToken = 0;
 let queuedTurn = null;
+let pageTurned = false;
 let renderedLayout = null;
 
 // DOM Element References
@@ -450,6 +451,7 @@ function showPage(index, announce = false) {
   btnNextPage.setAttribute('aria-label', index < total - 1 ? `Next page: ${rangeOf(pageEls[index + 1])}` : 'Next page');
   btnPrevPage.hidden = total < 2;
   btnNextPage.hidden = total < 2;
+  pageHintEl.hidden = pageTurned || total < 2; // the phone swipe hint shows until the first turn
   bookEl.classList.toggle('on-cover', pageEls[index] === coverEl);
 }
 
@@ -600,10 +602,10 @@ async function turnPage(step, moveFocus) {
   else await fold(fromPage, toPage, step > 0);
   if (token !== flipToken) return; // re-rendered mid-flip
 
+  pageTurned = true;
   showPage(target, true);
   flipLayerEl.replaceChildren();
   flipping = false;
-  pageHintEl.hidden = true; // the phone swipe hint shows until the first turn
   if (moveFocus) toPage.querySelector('.cover-title, .card-region-title').focus();
 
   const next = queuedTurn;
