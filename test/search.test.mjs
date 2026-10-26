@@ -17,6 +17,7 @@ const finds = [
   ['tn', ['TN']],
   ['up', ['UP']],
   ['new delhi', ['DL']],
+  ['nct', ['DL']],
   ['dnh', ['DN']],
   ['a&n', ['AN']],
   ['chattisgarh', ['CG']],
