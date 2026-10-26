@@ -509,6 +509,7 @@ function render() {
   tableViewEl.style.display = !empty && currentView === 'table' ? 'block' : 'none';
   if (empty) {
     cancelFlip();
+    pageEls = []; // nothing to turn: page keys fall through to normal scrolling
     return;
   }
 
