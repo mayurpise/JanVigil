@@ -310,11 +310,12 @@ a { color: inherit; }
   min-height: max(360px, calc(100dvh - var(--chrome)));
   touch-action: pan-y;
 }
-/* Room the cover name leaves for the rest of the page, per layout (main.js sets data-layout) */
-#grid-view { --l-reserve: 490px; --cover-reserve: 320px; }
-#grid-view[data-layout="tablet"] { --l-reserve: 560px; }
-#grid-view[data-layout="desktop"] { --l-reserve: 490px; --cover-reserve: 400px; }
-#grid-view[data-layout="desktopShort"] { --l-reserve: 300px; --cover-reserve: 265px; }
+/* Room the cover name leaves for the rest of the page, per layout (main.js sets data-layout).
+   Set on the frame so the flip layers' clones, outside #grid-view, inherit it too. */
+.book-frame { --l-reserve: 490px; --cover-reserve: 320px; }
+.book-frame[data-layout="tablet"] { --l-reserve: 560px; }
+.book-frame[data-layout="desktop"] { --l-reserve: 490px; --cover-reserve: 400px; }
+.book-frame[data-layout="desktopShort"] { --l-reserve: 300px; --cover-reserve: 265px; }
 
 .book-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; }
 .book-nav-center { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; min-height: 44px; }

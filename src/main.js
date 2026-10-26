@@ -504,7 +504,7 @@ function renderBook(items, keepPlace) {
   coverEl.classList.remove('is-current');
   gridViewEl.querySelectorAll('.page-agency').forEach(page => page.remove());
   renderedLayout = currentLayout();
-  gridViewEl.dataset.layout = renderedLayout;
+  frameEl.dataset.layout = renderedLayout;
   const pages = paginate(items, renderedLayout);
   const offset = withCover ? 1 : 0;
   const total = pages.length + offset;
@@ -619,7 +619,8 @@ function render(keepPlace = false) {
   if (items.length === 0) resultsCountEl.textContent = 'No state or agency matches that search.';
   else if (items.length === allAgencies.length) resultsCountEl.textContent = `Showing all ${items.length} agencies`;
   else resultsCountEl.textContent = `Showing ${items.length} of ${allAgencies.length} agencies`;
-  resultsCountEl.classList.toggle('is-quiet', items.length === allAgencies.length);
+  // Shown only when it adds something: not unfiltered, and not beside the empty state's own message
+  resultsCountEl.classList.toggle('is-quiet', items.length === allAgencies.length || items.length === 0);
 
   const empty = items.length === 0;
   noResultsEl.style.display = empty ? 'grid' : 'none';
