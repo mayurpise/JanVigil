@@ -480,7 +480,12 @@ function cancelFlip() {
   flipLayerEl.replaceChildren();
 }
 
-function renderBook(items) {
+// keepPlace (a new layout after a resize): reopen the page holding the first item the
+// reader was looking at, and keep focus in the book if it was there
+function renderBook(items, keepPlace) {
+  const shown = pageEls[pageIndex];
+  const anchorId = keepPlace && shown && shown !== coverEl ? shown.querySelector('.card').dataset.id : null;
+  const hadFocus = keepPlace && gridViewEl.contains(document.activeElement);
   cancelFlip();
   const withCover = searchQuery.trim() === '' && currentFilter === 'all';
   coverEl.hidden = !withCover;
@@ -500,7 +505,9 @@ function renderBook(items) {
   pageEls = withCover ? [coverEl, ...agencyPages] : agencyPages;
   if (withCover) coverEl.setAttribute('aria-label', `Page 1 of ${total}: Cover`);
   fillJumpPickers(items);
-  showPage(0);
+  const anchorPage = anchorId ? pageEls.findIndex(page => page.querySelector(`.card[data-id="${anchorId}"]`)) : 0;
+  showPage(Math.max(anchorPage, 0));
+  if (hadFocus) pageEls[pageIndex].querySelector('.cover-title, .card-region-title').focus();
 }
 
 // Visual copy of a page for the flip layers: no ids, not interactive
@@ -576,6 +583,7 @@ async function turnPage(step, moveFocus) {
   const token = flipToken;
   const fromPage = pageEls[pageIndex];
   const toPage = pageEls[target];
+  fromPage.inert = true; // clicks during the turn must not reach the outgoing page
   if (reducedMotionQuery.matches) await crossfade(toPage);
   else await fold(fromPage, toPage, step > 0);
   if (token !== flipToken) return; // re-rendered mid-flip
@@ -592,7 +600,7 @@ async function turnPage(step, moveFocus) {
 }
 
 // Render UI based on filtered data
-function render() {
+function render(keepPlace = false) {
   const items = getFilteredItems();
 
   // Results Count Text
@@ -612,7 +620,7 @@ function render() {
   }
 
   if (currentView === 'grid') {
-    renderBook(items);
+    renderBook(items, keepPlace);
   } else {
     tableBodyEl.replaceChildren();
     items.forEach((item, i) => {
@@ -836,7 +844,10 @@ function initEvents() {
 
   window.addEventListener('keydown', (e) => {
     if (currentView !== 'grid' || isModalOpen() || e.altKey || e.ctrlKey || e.metaKey) return;
-    if (e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    // Only from the page itself or inside the book, never from the toolbar or a field
+    const active = document.activeElement;
+    if (active !== document.body && !bookEl.contains(active)) return;
+    if (active.closest('input, textarea, select, [contenteditable="true"]')) return;
     const step = { ArrowRight: 1, PageDown: 1, ArrowLeft: -1, PageUp: -1 }[e.key];
     if (!step || pageIndex + step < 0 || pageIndex + step >= pageEls.length) return;
     e.preventDefault();
@@ -860,7 +871,7 @@ function initEvents() {
   // Re-measure when the chrome or the window changes; a new layout re-paginates
   const onResize = () => {
     measureChrome();
-    if (currentView === 'grid' && pageEls.length && currentLayout() !== renderedLayout) render();
+    if (currentView === 'grid' && pageEls.length && currentLayout() !== renderedLayout) render(true);
   };
   const resizeObserver = new ResizeObserver(onResize);
   [mastheadEl, toolbarEl, bookNavEl].forEach(node => resizeObserver.observe(node));
