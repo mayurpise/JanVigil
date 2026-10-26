@@ -280,6 +280,7 @@ function createCardNode({ item, slot, ink }) {
   if (slot === 'S') {
     const btnName = el('button', 'btn-detail', item.name);
     btnName.type = 'button';
+    btnName.setAttribute('aria-describedby', 's-tile-hint'); // "Opens how to report"
     btnName.addEventListener('click', openDetail);
     title.appendChild(btnName);
   }
@@ -326,6 +327,16 @@ function createPageNode(page, heading) {
   section.style.gridTemplateColumns = `repeat(${page.columns}, minmax(0, 1fr))`;
   section.style.gridTemplateRows = page.rows.join(' ');
   section.style.gridTemplateAreas = page.areas.map(row => `"${row}"`).join(' ');
+  // Tiles of one size share one name size, set by the longest name among them
+  ['M', 'S'].forEach(slot => {
+    const names = page.tiles.filter(tile => tile.slot === slot).map(tile => tile.item.name);
+    if (!names.length) return;
+    section.style.setProperty(`--${slot.toLowerCase()}-len`, Math.max(...names.map(name => name.length)));
+    section.style.setProperty(`--${slot.toLowerCase()}-word`, Math.max(...names.flatMap(name => name.split(/\s+/).map(word => word.length))));
+  });
+  // If only one of the M pair carries the unconfirmed marker, keep room for it in both
+  const mMarkers = page.tiles.filter(tile => tile.slot === 'M').map(tile => tile.item.phone.includes('*'));
+  if (new Set(mMarkers).size > 1) section.classList.add('m-align-marker');
   page.tiles.forEach(tile => {
     const card = createCardNode(tile);
     card.dataset.slot = tile.slot;

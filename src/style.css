@@ -11,6 +11,7 @@
   --haze: #F3F0F7;
   --rule: #DCD6E5;
   --edge: #857A99; /* control outlines: 3:1 or better on paper and haze */
+  --chip-hover: #E8E1F2;
   --page: var(--paper);
   --tile: var(--paper);
   --caution-text: #7A4A00;
@@ -38,6 +39,7 @@
   --rule: #342B44;
   --haze: #1A1523;
   --edge: #7E7397;
+  --chip-hover: #2C2440;
   --caution-text: #FFD27A;
   --caution-bg: #3A2A00;
   --form-ok: #86D9A8;
@@ -166,8 +168,9 @@ a { color: inherit; }
 }
 
 @media (hover: hover) {
-  .btn-quiet:hover, .btn-secondary:hover, .btn-line:hover, .filter-btn:not(.active):hover,
+  .btn-quiet:hover, .btn-secondary:hover, .btn-line:hover,
   .toggle-btn:not(.active):hover, .tab-btn:not(.active):hover, .page-btn-prev:not(:disabled):hover { background: var(--haze); }
+  .filter-btn:not(.active):hover { background: var(--chip-hover); } /* the toolbar itself is haze */
   .card--L .btn-line:hover, .sheet-head .btn-line:hover, .sheet-close:hover { background: rgba(255, 255, 255, .14); }
 }
 
@@ -185,6 +188,9 @@ a { color: inherit; }
 .brand-line { display: none; color: var(--muted); font-size: .9375rem; }
 .masthead-actions { display: flex; gap: 2px; }
 .theme-icon { display: inline-flex; }
+@media (min-width: 640px) {
+  .theme-icon { display: none; } /* its icons are hidden here; an empty flex item would add a gap */
+}
 [data-theme="dark"] .icon-moon, :root:not([data-theme="dark"]) .icon-sun { display: none; }
 
 /* Phones: icon buttons, labels kept for assistive tech */
@@ -305,7 +311,7 @@ a { color: inherit; }
   touch-action: pan-y;
 }
 /* Room the cover name leaves for the rest of the page, per layout (main.js sets data-layout) */
-#grid-view { --l-reserve: 470px; --cover-reserve: 320px; }
+#grid-view { --l-reserve: 490px; --cover-reserve: 320px; }
 #grid-view[data-layout="tablet"] { --l-reserve: 560px; }
 #grid-view[data-layout="desktop"] { --l-reserve: 490px; --cover-reserve: 400px; }
 #grid-view[data-layout="desktopShort"] { --l-reserve: 300px; --cover-reserve: 265px; }
@@ -379,6 +385,8 @@ a { color: inherit; }
 .card-head { min-width: 0; }
 .card-kind { font-size: .9375rem; line-height: 1.4; }
 .card-region-title { overflow-wrap: break-word; }
+/* After a page turn focus lands on the heading: a quiet underline, not a box */
+.card-region-title:focus-visible, .cover-title:focus-visible { outline: none; text-decoration: underline 3px; text-underline-offset: .12em; }
 .card-foot { display: grid; gap: 10px; justify-items: start; min-width: 0; }
 .card-phone { display: grid; gap: 4px; justify-items: start; }
 .card-number { line-height: 1; overflow-wrap: anywhere; }
@@ -425,26 +433,32 @@ a { color: inherit; }
 /* M and W: paper tiles under a band of the tile's ink */
 .card--M, .card--W { border-top: 6px solid var(--tile-ink); padding-top: 12px; padding-bottom: 18px; }
 .card--M .card-head, .card--W .card-head { flex: 1 1 auto; container-type: inline-size; }
+/* M pairs share one size, set by the page's longest M name (--m-len, from main.js) */
 .card--M .card-region-title {
-  font-size: clamp(1.5rem, min(18cqi, calc(270cqi / var(--len))), 3.75rem); /* one line where it fits */
+  font-size: clamp(1.5rem, min(16cqi, calc(270cqi / var(--m-len, var(--len)))), 3.5rem); /* one line where it fits */
 }
+/* W's name column is about as wide as an M tile, so it never drops below the M size */
 .card--W .card-region-title {
-  font-size: clamp(1.75rem, min(22cqi, calc(250cqi / var(--word)), calc(420cqi / var(--len))), 4.5rem);
+  font-size: clamp(1.75rem, max(min(22cqi, calc(250cqi / var(--word)), calc(420cqi / var(--len))), min(16cqi, calc(270cqi / var(--m-len, 99)))), 4.5rem);
 }
 /* W: name on the left, number and actions on the right */
 .card--W { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; }
 .card--W .card-foot { align-self: end; }
-.card--M .card-number { font-size: clamp(1.625rem, 10cqi, 2.75rem); }
+.card--M { --m-num: clamp(1.5rem, 9cqi, 2.5rem); }
+.card--M .card-number { font-size: var(--m-num); }
 .card--M .card-actions { gap: 6px; }
 .card--M .phone-pill, .card--M .portal-pill, .card--M .btn-line { padding: 0 12px; font-size: .9375rem; }
-.card--M .card-agency { font-size: .875rem; }
+.card--M .card-agency { font-size: .875rem; min-height: calc(2 * 1.35em); }
+/* When only one of an M pair has the unconfirmed marker, both keep room for it so the
+   numbers line up: number (line-height 1) + gap + marker (.875rem x 1.5 + 2px padding) */
+.m-align-marker .card--M .card-phone { min-height: calc(var(--m-num) + 4px + 1.3125rem + 2px); align-content: start; }
 .card--W .card-number { font-size: clamp(1.75rem, 7cqi, 3rem); }
 
 /* S: small paper tile; the name is a button stretched over the tile */
 .card--S { gap: 8px; padding: 14px 18px 16px; }
 .card--S .card-foot { flex: 1; align-content: space-between; gap: 8px; }
 .card--S .card-region-title {
-  font-size: clamp(1.375rem, min(13cqi, calc(200cqi / var(--word)), calc(300cqi / var(--len))), 2.75rem);
+  font-size: clamp(1.375rem, min(13cqi, calc(200cqi / var(--s-word)), calc(300cqi / var(--s-len))), 2.75rem);
 }
 .card--S .card-number { font-size: clamp(1.375rem, 10cqi, 2.25rem); }
 .card--S .phone-pill, .card--S .portal-pill { position: relative; z-index: 1; padding: 0 16px; }
@@ -737,7 +751,7 @@ a { color: inherit; }
   .card { padding: 20px 24px 22px; }
   .card--L { padding: 24px 28px 28px; }
   .card--S { padding: 14px 20px 16px; }
-  .card--S .card-region-title { font-size: clamp(1.375rem, min(9cqi, calc(200cqi / var(--word)), calc(300cqi / var(--len))), 2.25rem); }
+  .card--S .card-region-title { font-size: clamp(1.375rem, min(9cqi, calc(200cqi / var(--s-word)), calc(300cqi / var(--s-len))), 2.25rem); }
   .card--S .card-number { font-size: clamp(1.375rem, 7cqi, 2rem); }
   .cover-rule-title { font-size: clamp(1.75rem, 5cqi, 2.75rem); }
   .sheet-head { padding: 22px 28px 28px; }
@@ -788,6 +802,8 @@ a { color: inherit; }
   .cover-rule { grid-area: rule; padding: 26px 36px 32px; }
   .cover-rule-title { font-size: clamp(1.75rem, 9cqi, 2.75rem); }
 
+  .card { gap: 10px; }
+  .card-foot { gap: 8px; }
   .card--L { padding: 28px 32px 32px; }
 }
 
@@ -804,9 +820,11 @@ a { color: inherit; }
 
 /* Short desktop screens (e.g. 1366x768 laptops): tighter tiles and cover */
 @media (min-width: 1024px) and (max-height: 820px) {
-  .card { padding: 14px 18px 16px; }
+  .card { gap: 8px; padding: 14px 18px 16px; }
+  .card-foot { gap: 6px; }
   .card--L { padding: 20px 24px 22px; }
   .card--M, .card--W { padding-top: 10px; padding-bottom: 14px; }
+  .card--M { --m-num: clamp(1.375rem, 8cqi, 2.25rem); }
   .cover-main { padding: 28px 36px 24px; }
   .cover-lines { padding: 16px 36px 18px; }
   .cover-rule { gap: 8px; padding: 16px 28px 18px; }
