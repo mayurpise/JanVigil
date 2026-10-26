@@ -664,6 +664,8 @@ a { color: inherit; }
   .page-btn-prev { margin-left: 16px; }
   .page-btn-next { margin-right: 16px; }
   .sheet-backdrop { background: var(--page); }
+  .cover-title { font-size: clamp(2.25rem, 15cqi, 4rem); }
+  .cover-title span { display: block; } /* phones: one sentence a line */
 }
 
 /* ---------- Tablet and up (>= 640px) ---------- */
