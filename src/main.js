@@ -1,6 +1,7 @@
 import { directoryData } from '../data/anti_corruption_directory.js';
 import { telHref } from './phone.js';
 import { INKS, paginate } from './pages.js';
+import { searchAgencies } from './search.js';
 
 // Combine States and UTs into a single searchable array
 const allAgencies = [
@@ -107,27 +108,14 @@ function updateCounts() {
 
 // Filter and Search Logic
 function getFilteredItems() {
-  return allAgencies.filter(item => {
-    // 1. Region / Type filter
+  const inFilter = allAgencies.filter(item => {
     if (currentFilter === 'state' && item.type !== 'State') return false;
     if (currentFilter === 'ut' && item.type !== 'Union Territory') return false;
     if (currentFilter === 'verified' && !item.isFormVerified) return false;
     if (currentFilter === 'anonymous' && !item.anonymousSupport.toLowerCase().includes('yes')) return false;
-
-    // 2. Search query filter
-    if (searchQuery.trim() !== '') {
-      const q = searchQuery.toLowerCase().trim();
-      const matchName = item.name.toLowerCase().includes(q);
-      const matchAuthority = item.authority.toLowerCase().includes(q);
-      const matchPhone = item.phone.toLowerCase().includes(q);
-      const matchTypes = item.complaintTypes.some(t => t.toLowerCase().includes(q));
-      const matchNotes = (item.notes || '').toLowerCase().includes(q);
-
-      return matchName || matchAuthority || matchPhone || matchTypes || matchNotes;
-    }
-
     return true;
   });
+  return searchAgencies(inFilter, searchQuery);
 }
 
 // Toast helper
