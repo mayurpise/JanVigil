@@ -79,6 +79,8 @@ const btnReadMoreNotice = document.getElementById('btn-read-more-notice');
 const btnExportCSV = document.getElementById('btn-export-csv');
 const btnResetFilters = document.getElementById('btn-reset-filters');
 const toastContainerEl = document.getElementById('toast-container');
+const appEl = document.getElementById('app');
+const footerEl = document.querySelector('.site-footer');
 
 // Layout breakpoints, kept in step with style.css
 const desktopQuery = window.matchMedia('(min-width: 1024px)');
@@ -622,15 +624,23 @@ function render() {
 // Modal open/close with focus management
 let modalOpener = null;
 
+// While a sheet is open the page behind it is inert, so Tab and assistive tech stay in the sheet
 function openModal(modalEl, closeBtn) {
   modalOpener = document.activeElement;
+  appEl.inert = true;
+  footerEl.inert = true;
   modalEl.style.display = 'flex';
   closeBtn.focus();
 }
 
 function closeModal(modalEl) {
   modalEl.style.display = 'none';
-  if (modalOpener) modalOpener.focus();
+  appEl.inert = false;
+  footerEl.inert = false;
+  // The opener may have gone (re-render) or sit on a page that is no longer shown
+  const usable = modalOpener && modalOpener.isConnected && !modalOpener.closest('[inert]');
+  const target = usable ? modalOpener : pageEls[pageIndex]?.querySelector('.cover-title, .card-region-title');
+  target?.focus();
 }
 
 // Swap the detail sheet for the guide's trap tab; closing the guide returns focus
@@ -909,6 +919,7 @@ function initEvents() {
     filterBtns.forEach(b => setPressed(b, false));
     setPressed(document.querySelector('.filter-btn[data-filter="all"]'), true);
     render();
+    searchInputEl.focus(); // the button hides with the empty state
   });
 
   // CSV Export

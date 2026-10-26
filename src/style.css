@@ -245,8 +245,8 @@ a { color: inherit; }
   gap: 6px;
   overflow-x: auto;
   scrollbar-width: none;
-  margin-left: -16px;
-  padding-left: 16px;
+  margin: -6px 0 -6px -16px; /* room for focus rings inside the scroller */
+  padding: 6px 0 6px 16px;
 }
 .filters::-webkit-scrollbar { display: none; }
 .filter-btn {
@@ -275,6 +275,9 @@ a { color: inherit; }
   background: var(--tile);
 }
 .toggle-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; font-weight: 500; }
+/* The group clips overflow, so the ring sits inside the button, in a colour the fill can't hide */
+.toggle-btn:focus-visible { outline-offset: -5px; }
+.toggle-btn.active:focus-visible { outline-color: var(--primary-text); }
 .toggle-btn.active { background: var(--primary-bg); color: var(--primary-text); }
 
 .results-count { grid-area: count; color: var(--muted); font-size: .875rem; line-height: 1.3; }
@@ -720,7 +723,7 @@ a { color: inherit; }
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas: "search view" "filters filters" "count count";
   }
-  .filters { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .filters { flex-wrap: wrap; overflow: visible; margin: 0; padding: 0; }
   .book-frame { border: 1px solid var(--rule); border-radius: 12px; }
   .book-pages { min-height: clamp(480px, calc(100dvh - var(--chrome)), 860px); }
   .cover-main { padding: 32px 32px 28px; }
@@ -831,6 +834,17 @@ a { color: inherit; }
     color: var(--muted);
     font-size: .875rem;
   }
+}
+
+/* Forced colours drop background fills, so pressed controls also get an outline */
+@media (forced-colors: active) {
+  .filter-btn.active, .toggle-btn.active, .tab-btn.active { outline: 2px solid CanvasText; outline-offset: -4px; }
+}
+
+/* Short viewports (zoom, landscape phones): the whole sheet scrolls, so Close stays reachable */
+@media (max-height: 600px) {
+  .sheet { overflow-y: auto; }
+  .sheet-body { flex: none; overflow: visible; }
 }
 
 @media (prefers-reduced-motion: reduce) {
