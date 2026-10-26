@@ -211,13 +211,17 @@
           <div id="flip-layer" class="flip-layer" aria-hidden="true" inert></div>
         </div>
 
-        <button id="btn-prev-page" class="page-btn page-btn-prev" type="button" aria-label="Previous page">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
-        </button>
-        <p id="page-indicator" class="page-indicator" aria-live="polite">Page 1 of 6</p>
-        <button id="btn-next-page" class="page-btn page-btn-next" type="button" aria-label="Next page">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
-        </button>
+        <div class="book-nav">
+          <button id="btn-prev-page" class="page-btn page-btn-prev" type="button" aria-label="Previous page">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+          </button>
+          <div class="book-nav-center">
+            <p id="page-indicator" class="page-indicator" aria-live="polite">Page 1 of 6</p>
+          </div>
+          <button id="btn-next-page" class="page-btn page-btn-next" type="button" aria-label="Next page">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>
+          </button>
+        </div>
       </div>
 
       <section id="table-view" class="table-view" style="display: none;">

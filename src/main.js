@@ -26,13 +26,19 @@ let pageIndex = 0;
 let flipping = false;
 let flipToken = 0;
 let queuedTurn = null;
+let renderedLayout = null;
 
 // DOM Element References
 const htmlEl = document.documentElement;
 const btnThemeToggle = document.getElementById('btn-theme-toggle');
 const themeTextEl = document.getElementById('theme-text');
 
+const mastheadEl = document.querySelector('.masthead');
+const toolbarEl = document.querySelector('.toolbar');
+const stageEl = document.querySelector('.stage');
 const bookEl = document.getElementById('book');
+const frameEl = document.querySelector('.book-frame');
+const bookNavEl = document.querySelector('.book-nav');
 const gridViewEl = document.getElementById('grid-view');
 const coverEl = document.getElementById('issue-cover');
 const flipLayerEl = document.getElementById('flip-layer');
@@ -76,8 +82,24 @@ const desktopQuery = window.matchMedia('(min-width: 1024px)');
 const tabletQuery = window.matchMedia('(min-width: 640px)');
 const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// Below this much free height a desktop page has two rows of tiles, not three
+const SHORT_DESKTOP = 660;
+
+// Height the book cannot use: masthead, toolbar, stage padding and the page controls
+function measureChrome() {
+  if (bookEl.style.display === 'none') return; // table view or no results: keep the last value
+  const stage = getComputedStyle(stageEl);
+  const chrome = mastheadEl.offsetHeight + toolbarEl.offsetHeight
+    + parseFloat(stage.paddingTop) + parseFloat(stage.paddingBottom)
+    + bookEl.offsetHeight - frameEl.offsetHeight;
+  htmlEl.style.setProperty('--chrome', `${chrome}px`);
+}
+
 function currentLayout() {
-  if (desktopQuery.matches) return 'desktop';
+  if (desktopQuery.matches) {
+    const free = window.innerHeight - parseFloat(getComputedStyle(htmlEl).getPropertyValue('--chrome'));
+    return free < SHORT_DESKTOP ? 'desktopShort' : 'desktop';
+  }
   return tabletQuery.matches ? 'tablet' : 'mobile';
 }
 
@@ -395,7 +417,9 @@ function renderBook(items) {
   coverEl.hidden = !withCover;
   coverEl.classList.remove('is-current');
   gridViewEl.querySelectorAll('.page-agency').forEach(page => page.remove());
-  const agencyPages = paginate(items, currentLayout()).map(createPageNode);
+  renderedLayout = currentLayout();
+  gridViewEl.dataset.layout = renderedLayout;
+  const agencyPages = paginate(items, renderedLayout).map(createPageNode);
   agencyPages.forEach(page => gridViewEl.appendChild(page));
   pageEls = withCover ? [coverEl, ...agencyPages] : agencyPages;
   pageEls.forEach((page, i) => page.setAttribute('aria-label', `Page ${i + 1} of ${pageEls.length}`));
@@ -497,6 +521,7 @@ function render() {
   resultsCountEl.textContent = items.length === allAgencies.length
     ? `Showing all ${items.length} agencies`
     : `Showing ${items.length} of ${allAgencies.length} agencies`;
+  resultsCountEl.classList.toggle('is-quiet', items.length === allAgencies.length);
 
   const empty = items.length === 0;
   noResultsEl.style.display = empty ? 'grid' : 'none';
@@ -718,8 +743,14 @@ function initEvents() {
     turnPage(dx < 0 ? 1 : -1, false);
   });
 
-  desktopQuery.addEventListener('change', render);
-  tabletQuery.addEventListener('change', render);
+  // Re-measure when the chrome or the window changes; a new layout re-paginates
+  const onResize = () => {
+    measureChrome();
+    if (currentView === 'grid' && pageEls.length && currentLayout() !== renderedLayout) render();
+  };
+  const resizeObserver = new ResizeObserver(onResize);
+  [mastheadEl, toolbarEl, bookNavEl].forEach(node => resizeObserver.observe(node));
+  window.addEventListener('resize', onResize);
 
   // Guide Modal
   btnGuideModal.addEventListener('click', () => {
@@ -784,4 +815,5 @@ function initEvents() {
 applyTheme(currentTheme);
 updateCounts();
 initEvents();
+measureChrome();
 render();
